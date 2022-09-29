@@ -29,8 +29,7 @@ Característiques del disseny:
 
 • acabarJoc(codiPartida:enter):booleà
 
-</br>
-<b>PART BACK-END amb Serveis Web RESTful i JAX-RS, en llenguatge Java.</b>
+</br><b>PART BACK-END amb Serveis Web RESTful i JAX-RS, en llenguatge Java.</b></br>
 
 Funcionalitats a implementar:
 
@@ -55,8 +54,8 @@ Característiques del disseny.
 
 • El disseny d’interfície web és lliure.
 
-</br>
-<b>PART BACK-END amb Serveis Web RESTful i Node.js / Express</b>
+
+</br><b>PART BACK-END amb Serveis Web RESTful i Node.js / Express</b></br>
 
 Funcionalitats a implementar:
 • Cal utilitzar desenvolupar una aplicació de back end per a RESTFUL amb Node.js i Express.
