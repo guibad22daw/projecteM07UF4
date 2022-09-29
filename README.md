@@ -5,8 +5,9 @@ Ha triat aquesta opció perquè els clients del joc poden ser molt diversos, com
 navegador, una app mòbil, una aplicació d'escriptori o un TV intel·ligent. A més, es vol desenvolupar
 una API per a que qualsevol desenvolupador pugui implantar el joc en una solució o plataforma.
 Podeu trobar el funcionament del joc descrit <a href="https://ca.wikipedia.org/wiki/Pedra,_paper,_tisora.">aquí</a>.
-</br></br>
-<b>PART BACK-END amb Serveis Web SOAP en llenguatge JAVA</b>
+
+</br><b>PART BACK-END amb Serveis Web SOAP en llenguatge JAVA</b></br>
+
 Funcionalitats a implementar:
 
 • Cal utilitzar l'API de programació JAX-WS (Java) per a desenvolupar el productor SOAP.
