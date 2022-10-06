@@ -32,9 +32,7 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
             res.send("Si us plau introdueix un nom.")
         
         }else{
-            partida = {"codi": parseInt(req.params.codiPartida),
-                      "nom": req.body.nom,
-                      "estatPartida": 'A punt de començar.'};
+            partida = {"codi": parseInt(req.params.codiPartida), "nom": req.body.nom, "estatPartida": 'A punt de començar.'};
         }
     }
     codiPartides.push(partida);
@@ -55,12 +53,38 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
         }else if (!req.body.codi) res.send("Introdueix un codi.");
     }
     if(!partida){
-        res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}`);
+        res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
     }    
 });
 
 app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
-    res.send("Hola");
+    let partidaActual = {"codi": req.body.codi, "jugador": req.body.jugador, "tipusMoviment": req.body.tipusMoviment};
+    let jugador1 = 0, jugador2 = 0;
+    let tisores = 1, paper = 1;
+
+    
+    if(req.body.jugador > 2) res.send("Escull si ets el jugador 1 o 2.");
+    if(req.body.jugador == 1){ 
+        jugador1 = 1;
+        console.log("Jugador 1 assignat.");
+    }
+    if(req.body.jugador == 2){
+        jugador2 = 1;
+        console.log("Jugador 2 assignat.");
+    }
+    if(req.body.tipusMoviment == "pedra") pedra = 1;
+    if(req.body.tipusMoviment == "paper") paper = 1;
+    if(req.body.tipusMoviment == "tisores") tisores = 1;
+    if(jugador1 && pedra && jugador2 && paper){
+        res.send("Guanya el jugador 2.");
+    }
+    else if(jugador1 && pedra && jugador2 && tisores){
+        res.send("Guanya el jugador 1.");
+    }
+    else if(jugador1 && pedra && jugador2 && pedra){
+        res.send("Empat.");
+    }        
+        
 });
 
 app.delete('/api/acabarJoc/codiPartida', (req, res) => {
