@@ -15,28 +15,37 @@ app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al b
 //     {codi:2, nom:'ANNA',nota:6},
 //     {codi:3, nom:'JOAN',nota:4}
 // ];
+
 let codiPartides = [
-    {codi: 0}
+    {codi: 0, nom:'PROVA', estatPartida: 'Acabada'}
 ];
 
 app.get('/', (req, res)=>res.send('hola'));
 
 app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
     let partida = [];
-    for(i=0;i<codiPartides.length;i++){
-        if (req.body.codi == codiPartides[i].codi) {
-            res.send(codiPartides[i].codi);
-
+    partida.length = 0;
+    for (let i of codiPartides){
+        console.log(i);
+        if (i.codi == req.params.codiPartida){
+            res.send("Codi de partida ja existent.");
+        }if(!req.body.nom){
+            res.send("Si us plau introdueix un nom.")
+        
         }else{
-            partida = {codi: parseInt(req.body.codi)};
-            codiPartides.push(partida);
+            partida = {codi: parseInt(req.params.codiPartida),
+                      nom: req.body.nom,
+                      estatPartida: "A punt de començar."};
         }
     }
+    codiPartides.push(partida);
+    console.log(codiPartides);
     res.send(codiPartides);
+
 });
 
 app.get('/api/consultarEstatPartida/codiPartida:JSONs', (req, res) => {
-    res.send(alumnes);
+    res.send(codiPartides);
 });
 
 app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => {
