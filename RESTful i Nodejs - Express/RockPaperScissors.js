@@ -17,7 +17,7 @@ app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al b
 // ];
 
 let codiPartides = [
-    {codi: 0, nom:'PROVA', estatPartida: 'Acabada'}
+    {"codi": '0', "nom":'PROVA', "estatPartida": 'Acabada'}
 ];
 
 app.get('/', (req, res)=>res.send('hola'));
@@ -26,16 +26,15 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
     let partida = [];
     partida.length = 0;
     for (let i of codiPartides){
-        console.log(i);
         if (i.codi == req.params.codiPartida){
             res.send("Codi de partida ja existent.");
         }if(!req.body.nom){
             res.send("Si us plau introdueix un nom.")
         
         }else{
-            partida = {codi: parseInt(req.params.codiPartida),
-                      nom: req.body.nom,
-                      estatPartida: "A punt de començar."};
+            partida = {"codi": parseInt(req.params.codiPartida),
+                      "nom": req.body.nom,
+                      "estatPartida": 'A punt de començar.'};
         }
     }
     codiPartides.push(partida);
@@ -44,11 +43,23 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
 
 });
 
-app.get('/api/consultarEstatPartida/codiPartida:JSONs', (req, res) => {
-    res.send(codiPartides);
+app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
+    let partida = codiPartides.find(a =>a.codi===parseInt(req.body.codi));
+    let codis = [];
+    for (let i of codiPartides) codis.push(i.codi);
+    for (let i of codiPartides){
+        let codis = [];
+        codis.push(i.codi);
+        if (i.codi == req.body.codi){
+            res.send(partida);
+        }else if (!req.body.codi) res.send("Introdueix un codi.");
+    }
+    if(!partida){
+        res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}`);
+    }    
 });
 
-app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => {
+app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
     res.send("Hola");
 });
 
@@ -121,4 +132,4 @@ app.delete('/api/acabarJoc/codiPartida', (req, res) => {
 //     res.send(alumnes)
 // });
 
-app.listen(3000, ()=>console.log('inici servidor'));
+app.listen(3000, ()=>console.log('Servidor iniciat.'));
