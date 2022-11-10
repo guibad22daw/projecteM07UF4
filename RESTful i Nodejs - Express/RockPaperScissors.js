@@ -10,7 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al body
 
-let llistaPartides = [
+const llistaPartides = [
     { codi: 0, nom: 'PROVA', estatPartida: 'Acabada' }
 ];
 
@@ -38,15 +38,14 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
 });
 
 app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
-    let partida = codis.find(a => a.codi === parseInt(req.body.codi));
-    for (let i of codis) {
-        if (i.codi == req.body.codi) {
-            res.send(partida);
-        } else if (!req.body.codi) res.send("Introdueix un codi.");
-    }
-    if (!partida) {
-        res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
-    }
+    let codi = parseInt(req.body.codi);
+    let partida = llistaPartides.find(a => a.codi === codi);
+    // const partida = codis.find(({ codi }) => codi === codi);
+
+    if (codis.includes(codi)) res.send(partida);
+    else if (!req.body.codi) res.send("Si us plau introdueix un codi.");
+    else if (!req.body.codi || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
+    else res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
 });
 
 let jugador1 = 0, jugador2 = 0, wJug1 = 0,wJug2 = 0;
@@ -133,4 +132,4 @@ app.delete('/api/acabarJoc/codiPartida', (req, res) => {
 
 });
 
-app.listen(3000, () => console.log('Servidor iniciat.'));
+app.listen(3002, () => console.log('Servidor iniciat.'));
