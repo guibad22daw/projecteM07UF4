@@ -10,7 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al body
 
-const llistaPartides = [
+let llistaPartides = [
     { codi: 0, nom: 'PROVA', estatPartida: 'Acabada' }
 ];
 
