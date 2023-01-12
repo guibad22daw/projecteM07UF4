@@ -47,7 +47,9 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
     else res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
 });
 
-wJug1 = 0, wJug2 = 0, compt = 1, compt2 = 1;
+let compt = 1;
+let compt2 = 1;
+let partidaAcabada = 1;
 let jugadesJugador1 = [];
 let jugadesJugador2 = [];
 
@@ -58,8 +60,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
     let jugador = parseInt(req.body.jugador);
     let jugada = req.body.tipusMoviment;
 
-    if (codis.includes(codi)) {
-        console.log("codi inclos");
+    if (codis.includes(codi) && !(partidesAcabades.includes(codi))) {
         if (jugador == 1) {
             if (compt <= 3) {
                 jugadaActual = { ["jugada" + compt]: jugada };
@@ -67,10 +68,16 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
                 res.send(`Jugada${compt} executada.`);
                 compt++;
             } else {
-                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(jugadesJugador1)}`);
+                if (partidaAcabada == 3) {
+                    partidesAcabades.push(codi);
+                    res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(jugadesJugador1)}`);
+                    partidaAcabada = 1;
+                } else {
+                    res.send(`Partida ${partidaAcabada} finalitzada.`);
+                    partidaAcabada++;
+                    compt = 1;
+                }
             } 
-            
-            
         }
 
         if (jugador == 2) {
@@ -81,79 +88,14 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
                 compt2++;
             } else {
                 res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(jugadesJugador2)}`);
+                compt2 = 1;
             }
         }
     }
     else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
+    else if (!(partidesAcabades.includes(codi))) res.send("Aquesta partida ja ha acabat.");
     else res.send("Introdueix un codi vàlid.");
 
-    //     if (jugador == 1 && jugada == "pedra") jugador1 = "pedra";
-    //     else if (jugador == 2 && jugada == "pedra") jugador2 = "pedra";
-    //     else if (jugador == 1 && jugada == "Jugadorpaper") jugador1 = "paper";
-    //     else if (jugador == 2 && jugada == "paper") jugador2 = "paper";
-    //     else if (jugador == 1 && jugada == "tisores") jugador1 = "tisores";
-    //     else if (jugador == 2 && jugada == "tisores") jugador2 = "tisores";
-    //     if (jugador1 === jugador2) res.send("Empat.");
-    //     else {
-    //         if (jugador1 == "pedra" && jugador2 == "paper"){
-    //             wJug2 += 1;
-    //             if(wJug2 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 2. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 2.");
-    //             }
-    //         }
-    //         else if (jugador1 == "pedra" && jugador2 == "tisores") {
-    //             wJug1 += 1;
-    //             if(wJug1 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 1. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 1.");
-    //             }
-    //         }
-    //         else if (jugador1 == "paper" && jugador2 == "pedra") {
-    //             wJug1 += 1;
-    //             if(wJug1 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 1. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 1.");
-    //             }
-    //         }
-    //         else if (jugador1 == "paper" && jugador2 == "tisores") {
-    //             wJug2 += 1;
-    //             if(wJug2 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 2. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 2.");
-    //             }
-    //         }
-    //         else if (jugador1 == "tisores" && jugador2 == "paper") {
-    //             wJug1 += 1;
-    //             if(wJug1 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 1. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 1.");
-    //             }
-    //         }
-    //         else if (jugador1 == "tisores" && jugador2 == "pedra") {
-    //             wJug2 += 1;
-    //             if(wJug2 == 3){
-    //                 wJug1 = 0;wJug2 = 0;
-    //                 res.send("Guanya jugador 2. Partida acabada.");
-    //             }else{
-    //                 res.send("Guanya jugador 2.");
-    //             }
-    //         }
-
-    //     }
-    // }
-    // else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
-    // else res.send("Introdueix un codi vàlid.")
 });
 
 app.delete('/api/acabarJoc/codiPartida', (req, res) => {
