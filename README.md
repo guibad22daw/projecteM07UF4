@@ -59,6 +59,7 @@ Característiques del disseny.
 </br><b>PART BACK-END amb Serveis Web RESTful i Node.js / Express</b></br>
 
 Funcionalitats a implementar:
+
 • Cal utilitzar desenvolupar una aplicació de back end per a RESTFUL amb Node.js i Express.
 
 • La pràctica consisteix en implementar el back end del joc amb tota la lògica del joc, incloent una estructura de dades que l'estat de la partida, una partida consisteix en guanyar 3 cops.
