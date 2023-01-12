@@ -38,9 +38,8 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
 });
 
 app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
-    let codi = parseInt(req.body.codi);
+    let codi = parseInt(req.body.codiPartida);
     let partida = codis.find(a => a.codi === codi);
-    // const partida = codis.find(({ codi }) => codi === codi);
 
     if (codis.includes(codi)) res.send(partida);
     else if (!req.body.codi) res.send("Si us plau introdueix un codi.");
@@ -48,39 +47,41 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
     else res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
 });
 
-let jugador1 = 0, jugador2 = 0, wJug1 = 0, wJug2 = 0, compt = 1, compt2 = 1;
+wJug1 = 0, wJug2 = 0, compt = 1, compt2 = 1;
 let jugadesJugador1 = [];
 let jugadesJugador2 = [];
 
 app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
     let jugadaActual;
-    let partidaActual = { "codi": req.body.codi, "jugador": req.body.jugador, "tipusMoviment": req.body.tipusMoviment };
+    //let partidaActual = { "codi": req.body.codi, "jugador": req.body.jugador, "tipusMoviment": req.body.tipusMoviment };
     let codi = parseInt(req.body.codiPartida);
     let jugador = parseInt(req.body.jugador);
     let jugada = req.body.tipusMoviment;
 
     if (codis.includes(codi)) {
+        console.log("codi inclos");
         if (jugador == 1) {
             if (compt <= 3) {
-                jugador1 = "pedra";
                 jugadaActual = { ["jugada" + compt]: jugada };
                 jugadesJugador1.push(jugadaActual);
-                //res.send(`Jugada${compt} executada.`);
+                res.send(`Jugada${compt} executada.`);
                 compt++;
-            } else res.send(jugadesJugador1);
+            } else {
+                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(jugadesJugador1)}`);
+            } 
             
-            //res.send("Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.");
+            
         }
 
         if (jugador == 2) {
             if (compt2 <= 3) {
                 jugadaActual = { ["jugada" + compt2]: jugada };
                 jugadesJugador2.push(jugadaActual);
-                //res.send(`Jugada${compt2} executada.`);
+                res.send(`Jugada${compt2} executada.`);
                 compt2++;
-            } else res.send(jugadesJugador2);
-            
-            //res.send("Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.");
+            } else {
+                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(jugadesJugador2)}`);
+            }
         }
     }
     else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
