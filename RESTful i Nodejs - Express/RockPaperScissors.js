@@ -10,11 +10,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al body
 
-const llistaPartides = [
-    { codi: 0, nom: 'PROVA', estatPartida: 'Acabada' }
-];
+const llistaPartides = [];
 
-let codis = [0];
+let codis = [];
 let partidesAcabades = [];
 
 app.get('/', (req, res) => res.send('hola'));
@@ -93,7 +91,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
         }
     }
     else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
-    else if (!(partidesAcabades.includes(codi))) res.send("Aquesta partida ja ha acabat.");
+    else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
     else res.send("Introdueix un codi vàlid.");
 
 });
