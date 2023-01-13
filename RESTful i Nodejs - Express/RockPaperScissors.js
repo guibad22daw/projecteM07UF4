@@ -68,7 +68,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
 
     if (codis.includes(codi) && !(partidesAcabades.includes(codi))) {
         if (jugador == 1) {
-            if (compt <= 3) {
+            if (compt <= 5) {
                 jugadaActual = { ["jugada" + compt]: jugada };
                 partidaActual.jugadesJugador1 += `${jugada} `;
                 console.log(llistaPartides);
@@ -81,7 +81,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
         }
 
         if (jugador == 2) {
-            if (compt2 <= 3) {
+            if (compt2 <= 5) {
                 jugadaActual = { ["jugada" + compt2]: jugada };
                 partidaActual.jugadesJugador2 += `${jugada} `;
                 console.log(llistaPartides);
@@ -101,48 +101,45 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
 
 app.delete('/api/acabarJoc/codiPartida', (req, res) => {
     let codi = parseInt(req.body.codiPartida);
-    const resultats = [];
-    let wJug1 = 0;
-    let wJug2 = 0;
+    let resultats = [], jugades = [];
+    let wJug1 = 0, wJug2 = 0;
     let guanyador = '';
     let acabarPartida = llistaPartides.find(a => a.codi === codi);
     let jugadesJugador1 = acabarPartida.jugadesJugador1.split(" ");
     let jugadesJugador2 = acabarPartida.jugadesJugador2.split(" ");
 
     for (let i = 0; i < jugadesJugador1.length - 1; i++) {
-        const jugadaJugador1 = jugadesJugador1[i];
-        const jugadaJugador2 = jugadesJugador2[i];
-
-        if (jugadaJugador1 == jugadaJugador2) {
-            acabarPartida.resultats += 'Empat ';
+        if (jugadesJugador1[i] == jugadesJugador2[i]) {
+            jugades += 'Empat ';
             guanyador = 'Empat';
 
-        } else if ((jugadaJugador1 === 'pedra' && jugadaJugador2 === 'tisores') ||
-            (jugadaJugador1 === 'paper' && jugadaJugador2 === 'pedra') ||
-            (jugadaJugador1 === 'tisores' && jugadaJugador2 === 'paper')) {
-            acabarPartida.resultats += 'Jugador1 ';
+        } else if ((jugadesJugador1[i] === 'pedra' && jugadesJugador2[i] === 'tisores') ||
+            (jugadesJugador1[i] === 'paper' && jugadesJugador2[i] === 'pedra') ||
+            (jugadesJugador1[i] === 'tisores' && jugadesJugador2[i] === 'paper')) {
+            jugades += 'Jugador1 ';
             guanyador = 'Jugador1';
             wJug1 += 1;
         } else {
-            acabarPartida.resultats += 'Jugador2 ';
+            jugades += 'Jugador2 ';
             guanyador = 'Jugador2';
             wJug2 += 1;
         }
 
         resultats.push({
-            jugadaJugador1,
-            jugadaJugador2,
-            guanyador
+            JugadesJugador1: jugadesJugador1[i],
+            JugadesJugador2: jugadesJugador2[i],
+            Guanyador: guanyador
         });
     }
+    acabarPartida.resultats = jugades;
     if (wJug1 > wJug2) {
-        resultats.push({GuanyadorGlobal: "Jugador1"});
+        resultats.push({GuanyadorFinal: "Jugador1"});
         acabarPartida.guanyador = "Jugador 1";
     } else if (wJug1 < wJug2) {
-        resultats.push({GuanyadorGlobal: "Jugador2"}); 
+        resultats.push({GuanyadorFinal: "Jugador2"}); 
         acabarPartida.guanyador = "Jugador 2";
     } else {
-        resultats.push({GuanyadorGlobal: "Empat"}); 
+        resultats.push({GuanyadorFinal: "Empat"}); 
         acabarPartida.guanyador = "Empat";
     }
     acabarPartida.estatPartida = "Acabada.";
