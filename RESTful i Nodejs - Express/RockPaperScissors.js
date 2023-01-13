@@ -23,6 +23,7 @@ const llistaPartides = [];
 
 let codis = [];
 let partidesAcabades = [];
+let moviments = ["pedra", "paper", "tisores"];
 
 app.get('/', (req, res) => res.send('hola'));
 
@@ -66,14 +67,20 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
     let jugador = parseInt(req.body.jugador);
     let jugada = req.body.tipusMoviment;
 
-    if (codis.includes(codi) && !(partidesAcabades.includes(codi))) {
+    if (!moviments.includes(jugada)) {
+        res.send("Jugada no vàlida. Introdueix un dels següents moviments: pedra, paper, tisores.")
+    }
+    else if (!jugador || !(jugador > 0 && jugador <= 2)) res.send("Només poden haver-hi jugador 1 i jugador 2")
+    else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
+    else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
+    else if (codis.includes(codi)) {
         if (jugador == 1) {
             if (compt <= 5) {
                 jugadaActual = { ["jugada" + compt]: jugada };
                 partidaActual.jugadesJugador1 += `${jugada} `;
                 console.log(llistaPartides);
                 jugadesJugador1.push(jugadaActual);
-                res.send(`Jugada${compt} executada. Comprova el guanyador a /api/acabarJoc/codiPartida`);
+                res.send(`Jugada ${compt} executada.`);
                 compt++;
             } else {
                 res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(partidaActual)}`);
@@ -93,8 +100,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
             }
         }
     }
-    else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
-    else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
+
     else res.send("Introdueix un codi vàlid.");
 
 });
@@ -133,17 +139,17 @@ app.delete('/api/acabarJoc/codiPartida', (req, res) => {
     }
     acabarPartida.resultats = jugades;
     if (wJug1 > wJug2) {
-        resultats.push({GuanyadorFinal: "Jugador1"});
+        resultats.push({ GuanyadorFinal: "Jugador1" });
         acabarPartida.guanyador = "Jugador 1";
     } else if (wJug1 < wJug2) {
-        resultats.push({GuanyadorFinal: "Jugador2"}); 
+        resultats.push({ GuanyadorFinal: "Jugador2" });
         acabarPartida.guanyador = "Jugador 2";
     } else {
-        resultats.push({GuanyadorFinal: "Empat"}); 
+        resultats.push({ GuanyadorFinal: "Empat" });
         acabarPartida.guanyador = "Empat";
     }
     acabarPartida.estatPartida = "Acabada.";
-    console.log(llistaPartides);
+    console.log(acabarPartida);
     res.send(resultats);
     partidesAcabades.push(codi);
     compt = 1; compt2 = 1;
