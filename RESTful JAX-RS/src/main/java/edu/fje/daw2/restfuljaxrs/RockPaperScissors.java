@@ -5,23 +5,17 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Path("daw2")
-/**
- * Servei web rest amb Java
- * URL
- * localhost:8080/api/daw2/consultarTots
- * sergi.grau@fje.edu
- * version 1.0 11.11.21
- */
 public class RockPaperScissors {
 
     @Context
     private UriInfo context;
-    private static List<Partida> llistaPartides = new ArrayList<>();
+    private static List<Partida> llistaPartides = new ArrayList<Partida>();
 
     public RockPaperScissors() {
         if (llistaPartides.size() == 0) {
@@ -32,8 +26,15 @@ public class RockPaperScissors {
     @Path("/consultarTOTS")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String consultarTotsAlumnes() {
+    public String consultarPartides() {
         return llistaPartides.toString();
+    }
+
+    @Path("/consultarServidor")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String prova() {
+        return "server funciona";
     }
 
     @Path("/consultarUn/{codiPartida}")
