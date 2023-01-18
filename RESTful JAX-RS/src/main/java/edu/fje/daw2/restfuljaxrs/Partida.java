@@ -3,14 +3,16 @@ package edu.fje.daw2.restfuljaxrs;
 public class Partida {
     private int codi;
     private String nom;
+    private String estatPartida;
     private String jugadesJugador1;
     private String jugadesJugador2;
     private String resultats;
     private String guanyador;
 
-    public Partida(int codi, String nom, String jugadesJugador1, String jugadesJugador2, String resultats, String guanyador) {
+    public Partida(int codi, String nom, String estatPartida, String jugadesJugador1, String jugadesJugador2, String resultats, String guanyador) {
         this.codi = codi;
         this.nom = nom;
+        this.estatPartida = estatPartida;
         this.jugadesJugador1 = jugadesJugador1;
         this.jugadesJugador2 = jugadesJugador2;
         this.resultats = resultats;
@@ -31,6 +33,14 @@ public class Partida {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getEstatPartida() {
+        return estatPartida;
+    }
+
+    public void setEstatPartida(String estatPartida) {
+        this.estatPartida = estatPartida;
     }
 
     public String getJugadesJugador1() {
@@ -70,10 +80,19 @@ public class Partida {
         return "Partida{" +
             "codi=" + codi +
             ", nom='" + nom + '\'' +
+            ", estatPartida='" + estatPartida + '\'' +
             ", jugadesJugador1='" + jugadesJugador1 + '\'' +
             ", jugadesJugador2='" + jugadesJugador2 + '\'' +
             ", resultats='" + resultats + '\'' +
             ", guanyador='" + guanyador + '\'' +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Partida partida = (Partida) o;
+        return codi == partida.codi;
     }
 }
