@@ -57,29 +57,22 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
 
 let compt = 1;
 let compt2 = 1;
-let jugadesJugador1 = [];
-let jugadesJugador2 = [];
 
 app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
-    let jugadaActual;
     let codi = parseInt(req.body.codiPartida);
     let partidaActual = llistaPartides.find(a => a.codi === codi);
     let jugador = parseInt(req.body.jugador);
     let jugada = req.body.tipusMoviment;
 
-    if (!moviments.includes(jugada)) {
-        res.send("Jugada no vàlida. Introdueix un dels següents moviments: pedra, paper, tisores.")
-    }
-    else if (!jugador || !(jugador > 0 && jugador <= 2)) res.send("Només poden haver-hi jugador 1 i jugador 2")
+    if (!moviments.includes(jugada)) res.send("Jugada no vàlida. Introdueix un dels següents moviments: pedra, paper, tisores.");
+    else if (!jugador || !(jugador > 0 && jugador <= 2)) res.send("Només poden haver-hi jugador 1 i jugador 2");
     else if (!req.body.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
     else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
     else if (codis.includes(codi)) {
         if (jugador == 1) {
             if (compt <= 5) {
-                jugadaActual = { ["jugada" + compt]: jugada };
                 partidaActual.jugadesJugador1 += `${jugada} `;
                 console.log(llistaPartides);
-                jugadesJugador1.push(jugadaActual);
                 res.send(`Jugada ${compt} executada.`);
                 compt++;
             } else {
@@ -89,10 +82,8 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
 
         if (jugador == 2) {
             if (compt2 <= 5) {
-                jugadaActual = { ["jugada" + compt2]: jugada };
                 partidaActual.jugadesJugador2 += `${jugada} `;
                 console.log(llistaPartides);
-                jugadesJugador2.push(jugadaActual);
                 res.send(`Jugada${compt2} executada.`);
                 compt2++;
             } else {

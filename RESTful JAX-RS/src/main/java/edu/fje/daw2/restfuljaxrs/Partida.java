@@ -48,7 +48,7 @@ public class Partida {
     }
 
     public void setJugadesJugador1(String jugadesJugador1) {
-        this.jugadesJugador1 = jugadesJugador1;
+        this.jugadesJugador1 += jugadesJugador1;
     }
 
     public String getJugadesJugador2() {
@@ -56,7 +56,7 @@ public class Partida {
     }
 
     public void setJugadesJugador2(String jugadesJugador2) {
-        this.jugadesJugador2 = jugadesJugador2;
+        this.jugadesJugador2 += jugadesJugador2;
     }
 
     public String getResultats() {

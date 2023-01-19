@@ -17,6 +17,8 @@ public class RockPaperScissors {
     private UriInfo context;
     private static List<Partida> llistaPartides = new ArrayList<Partida>();
     private static List<Integer> codis = new ArrayList<Integer>();
+    public static int compt = 0;
+    public static int compt2 = 0;
 
     public RockPaperScissors() {
         if (llistaPartides.size() == 0) {
@@ -51,15 +53,29 @@ public class RockPaperScissors {
         return llistaPartides.get(pos).toString();
     }
 
-    @Path("/moureJugador/{codiPartida/{jugador}/{jugada}")
+
+
+    @Path("/moureJugador/{codiPartida}/{jugador}/{jugada}")
     @PUT
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response moureJugador(@FormParam("codiPartida") int codi, @FormParam("nom") String nouNom){
-        Partida temp = new Partida(codi, nouNom,"","","","","");
+    public String moureJugador(@PathParam("codiPartida") int codi, @PathParam("jugador") int jugador, @PathParam("jugada") String jugada){
+        Partida temp = new Partida(codi, "","","","","","");
         int pos = llistaPartides.indexOf(temp);
-        llistaPartides.get(pos).setNom(nouNom);
-        return Response.status(200).entity("alumne modificat").build();
+
+        if (!codis.contains(codi)) return "Si us plau introdueix un codi vàlid.";
+        else if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
+        else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
+        else if((jugador == 1 && compt >= 5) || (jugador == 2 && compt2 >= 5)) return "Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.";
+        else if (jugador == 2) {
+            llistaPartides.get(pos).setJugadesJugador2(jugada+" ");
+            compt2++;
+            return "Jugada "+compt2+" executada.";
+        }
+        llistaPartides.get(pos).setJugadesJugador1(jugada+" ");     // S'afegeix la jugada a jugadesJugador1
+        System.out.println(llistaPartides.toString());
+        compt++;
+        return "Jugada "+compt+" executada.";
     }
 
     @Path("/modificarAlumne")
