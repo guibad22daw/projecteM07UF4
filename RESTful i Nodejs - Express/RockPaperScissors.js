@@ -1,23 +1,8 @@
-/**
- * Aplicació en ExpressJS que crea una API REST completa
- * @author sergi.grau@fje.edu
- * @version 2.0 10.10.21
- */
-
 const express = require('express');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()) // per analitzar les peticions HTTP que portin JSON al body
-
-// const llistaPartides = [{
-//     codi: 123,
-//     nom: 'Carles',
-//     jugadesJugador1: 'tisores tisores tisores ',
-//     jugadesJugador2: 'pedra paper tisores ',
-//     resultats: '',
-//     guanyador: ''
-// }];
 
 const llistaPartides = [];
 const seguimentPartida = [];
@@ -28,15 +13,15 @@ let moviments = ["pedra", "paper", "tisores"];
 
 app.get('/', (req, res) => res.send('hola'));
 
-app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
-    let codi = parseInt(req.params.codiPartida);
+app.post('/api/iniciarJoc', (req, res) => {
+    let codi = parseInt(req.body.codi);
 
     if (codis.includes(codi)) res.send("Codi de partida ja existent.");
     else if (!req.body.nom) res.send("Si us plau introdueix un nom.");
-    else if (!req.params.codiPartida || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
+    else if (!codi || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
     else {
-        llistaPartides.push({ codi: parseInt(codi), nom: req.body.nom, estatPartida: 'En progrés.', jugadesJugador1: '', jugadesJugador2: '', resultats: '', guanyador: '' });
-        seguimentPartida.push({ codi: parseInt(codi), compt: 0, compt2: 0, tornJugador: 1 })
+        llistaPartides.push({ codi: codi, nom: req.body.nom, estatPartida: 'En progrés.', jugadesJugador1: '', jugadesJugador2: '', resultats: '', guanyador: '' });
+        seguimentPartida.push({ codi: codi, compt: 0, compt2: 0, tornJugador: 1, wJug1: 0, wJug2: 0 })
         codis.push(codi);
         res.send(`Partida creada. Número de partida: ${codi}`);
     }
@@ -45,8 +30,8 @@ app.post('/api/iniciarJoc/:codiPartida', (req, res) => {
 
 });
 
-app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
-    let codi = parseInt(req.body.codiPartida);
+app.get('/api/consultarEstatPartida/:codi', (req, res) => {
+    let codi = parseInt(req.params.codi);
     let partida = llistaPartides.find(a => a.codi === codi);
 
     if (codis.includes(codi)) res.send(partida);
@@ -55,16 +40,15 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
 
 
 
-app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
-    let codi = parseInt(req.body.codiPartida);
+app.put('/api/moureJugador', (req, res) => { // /api/moureJugador/123/1/tisores
+    let codi = parseInt(req.body.codi);
     let seguiment = seguimentPartida.find(a => a.codi === codi);
     let partidaActual = llistaPartides.find(a => a.codi === codi);
     let jugador = parseInt(req.body.jugador);
-    let jugada = req.body.tipusMoviment;
+    let jugada = req.body.jugada;
 
     if (!moviments.includes(jugada)) res.send("Jugada no vàlida. Introdueix un dels següents moviments: pedra, paper, tisores.");
     else if (!jugador || !(jugador > 0 && jugador <= 2)) res.send("Només poden haver-hi jugador 1 i jugador 2");
-    else if (!codi || isNaN(codi)) res.send("Si us plau introdueix un codi vàlid.");
     else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
     else if (codis.includes(codi)) {
         if (jugador == 1) {
@@ -79,7 +63,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
                     res.send(`Jugada ${seguiment.compt} executada.`);
                 }
             } else {
-                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(partidaActual)}`);
+                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
                 seguiment.tornJugador = 2;
             }
         }
@@ -96,7 +80,7 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
                     res.send(`Jugada ${seguiment.compt2} executada.`);
                 }
             } else {
-                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(partidaActual)}`);
+                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
                 seguiment.tornJugador = 1;
             }
         }
@@ -106,59 +90,63 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
 
 });
 
-app.delete('/api/acabarJoc/codiPartida', (req, res) => {
-    let codi = parseInt(req.body.codiPartida);
+app.delete('/api/acabarJoc/:codi', (req, res) => {
+    let codi = parseInt(req.params.codi);
+    let seguiment = seguimentPartida.find(a => a.codi === codi);
     let resultats = [], jugades = [];
-    let wJug1 = 0, wJug2 = 0;
     let guanyador = '';
     let acabarPartida = llistaPartides.find(a => a.codi === codi);
-    let jugadesJugador1 = acabarPartida.jugadesJugador1.split(" ");
-    let jugadesJugador2 = acabarPartida.jugadesJugador2.split(" ");
 
-    for (let i = 0; i < jugadesJugador1.length - 1; i++) {
-        if (jugadesJugador1[i] == jugadesJugador2[i]) {
-            jugades += 'Empat ';
-            guanyador = 'Empat';
+    if(codis.includes(codi)){
+        let jugadesJugador1 = acabarPartida.jugadesJugador1.split(" ");
+        let jugadesJugador2 = acabarPartida.jugadesJugador2.split(" ");
 
-        } else if ((jugadesJugador1[i] === 'pedra' && jugadesJugador2[i] === 'tisores') ||
-            (jugadesJugador1[i] === 'paper' && jugadesJugador2[i] === 'pedra') ||
-            (jugadesJugador1[i] === 'tisores' && jugadesJugador2[i] === 'paper')) {
-            jugades += 'Jugador1 ';
-            guanyador = 'Jugador1';
-            wJug1 += 1;
-        } else if (jugadesJugador2[i] === "") {
-            guanyador = 'Jugador1';
-            wJug1 += 1;
+        for (let i = 0; i < jugadesJugador1.length - 1; i++) {
+            if (jugadesJugador1[i] == jugadesJugador2[i]) {
+                jugades += 'Empat ';
+                guanyador = 'Empat';
+
+            } else if ((jugadesJugador1[i] === 'pedra' && jugadesJugador2[i] === 'tisores') ||
+                (jugadesJugador1[i] === 'paper' && jugadesJugador2[i] === 'pedra') ||
+                (jugadesJugador1[i] === 'tisores' && jugadesJugador2[i] === 'paper')) {
+                jugades += 'Jugador1 ';
+                guanyador = 'Jugador1';
+                seguiment.wJug1++;
+            } else if (jugadesJugador2[i] === "") {
+                guanyador = 'Jugador1';
+                seguiment.wJug1++;
+            } else {
+                jugades += 'Jugador2 ';
+                guanyador = 'Jugador2';
+                seguiment.wJug2++;
+            }
+
+            resultats.push({
+                JugadesJugador1: jugadesJugador1[i],
+                JugadesJugador2: jugadesJugador2[i],
+                Guanyador: guanyador
+            });
         }
-        else {
-            jugades += 'Jugador2 ';
-            guanyador = 'Jugador2';
-            wJug2 += 1;
-        }
 
-        resultats.push({
-            JugadesJugador1: jugadesJugador1[i],
-            JugadesJugador2: jugadesJugador2[i],
-            Guanyador: guanyador
-        });
-    }
-    acabarPartida.resultats = jugades;
-    if (wJug1 > wJug2) {
-        resultats.push({ GuanyadorFinal: "Jugador1" });
-        acabarPartida.guanyador = "Jugador 1";
-    } else if (wJug1 < wJug2) {
-        resultats.push({ GuanyadorFinal: "Jugador2" });
-        acabarPartida.guanyador = "Jugador 2";
-    } else {
-        resultats.push({ GuanyadorFinal: "Empat" });
-        acabarPartida.guanyador = "Empat";
-    }
-    res.send(resultats);
-    if(jugadesJugador1.length == 5 && jugadesJugador2.length == 5){
-        acabarPartida.estatPartida = "Acabada.";
-        partidesAcabades.push(codi);
-        compt = 1; compt2 = 1;
-    }
+        acabarPartida.resultats = jugades;
+        if (seguiment.wJug1 > seguiment.wJug2) {
+            resultats.push({ GuanyadorFinal: "Jugador1" });
+            acabarPartida.guanyador = "Jugador 1";
+        } else if (seguiment.wJug1 < seguiment.wJug2) {
+            resultats.push({ GuanyadorFinal: "Jugador2" });
+            acabarPartida.guanyador = "Jugador 2";
+        } else {
+            resultats.push({ GuanyadorFinal: "Empat" });
+            acabarPartida.guanyador = "Empat";
+        }
+        
+        if(seguiment.compt == 5 && seguiment.compt == 5){
+            acabarPartida.estatPartida = "Acabada.";
+            partidesAcabades.push(codi);
+        }
+        res.send(resultats);
+    } else res.send("Introdueix un codi vàlid.");
+
 });
 
 app.listen(3001, () => console.log('Servidor iniciat.'));
