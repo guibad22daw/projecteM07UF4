@@ -57,7 +57,6 @@ public class RockPaperScissors {
 
     @Path("/moureJugador/{codiPartida}/{jugador}/{jugada}")
     @PUT
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     public String moureJugador(@PathParam("codiPartida") int codi, @PathParam("jugador") int jugador, @PathParam("jugada") String jugada){
         Partida temp = new Partida(codi, "","","","","","");
@@ -78,15 +77,23 @@ public class RockPaperScissors {
         return "Jugada "+compt+" executada.";
     }
 
-    @Path("/modificarAlumne")
-    @PUT
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/acabarJoc/{codiPartida}")
+    @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    public Response modificarAlumne(@FormParam("codiPartida") int codi, @FormParam("nom") String nouNom){
+    public Response acabarJoc(@PathParam("codiPartida") int codi) {
+        int wJug=0, wJug2=0;
+        String guanyador;
 
-        Partida temp = new Partida(codi, nouNom,"","","","","");
+
+        Partida temp = new Partida(codi, "","","","","","");
         int pos = llistaPartides.indexOf(temp);
-        llistaPartides.get(pos).setNom(nouNom);
+        List<String> jugadesJugador1 = new ArrayList<String>();
+        List<String> jugadesJugador2 = new ArrayList<String>();
+        jugadesJugador1.add(llistaPartides.get(pos).getJugadesJugador1());
+        jugadesJugador2.add(llistaPartides.get(pos).getJugadesJugador2());
+        System.out.println(jugadesJugador1);
+        System.out.println(jugadesJugador2.toString());
+        llistaPartides.get(pos).getJugadesJugador1();
         return Response.status(200).entity("alumne modificat").build();
     }
 

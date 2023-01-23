@@ -55,8 +55,10 @@ app.get('/api/consultarEstatPartida/codiPartida', (req, res) => {
     else res.send(`Introdueix un codi vàlid. Codis de partides disponibles: ${codis.toString()}.`);
 });
 
-let compt = 1;
-let compt2 = 1;
+let compt = 0;
+let compt2 = 0;
+let tornJugador = 1;
+
 
 app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { // /api/moureJugador/123/1/tisores
     let codi = parseInt(req.body.codiPartida);
@@ -70,24 +72,36 @@ app.put('/api/moureJugador/codiPartida/jugador/tipusMoviment', (req, res) => { /
     else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
     else if (codis.includes(codi)) {
         if (jugador == 1) {
-            if (compt <= 5) {
-                partidaActual.jugadesJugador1 += `${jugada} `;
-                console.log(llistaPartides);
-                res.send(`Jugada ${compt} executada.`);
-                compt++;
+            if (compt < 5) {
+                if (tornJugador != 1) {
+                    res.send('El jugador 2 encara no ha tirat.');
+                } else {
+                    partidaActual.jugadesJugador1 += `${jugada} `;
+                    console.log(llistaPartides);
+                    tornJugador = 2;
+                    compt++;
+                    res.send(`Jugada ${compt} executada.`);
+                }
             } else {
                 res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(partidaActual)}`);
+                tornJugador = 2;
             }
         }
 
         if (jugador == 2) {
-            if (compt2 <= 5) {
-                partidaActual.jugadesJugador2 += `${jugada} `;
-                console.log(llistaPartides);
-                res.send(`Jugada${compt2} executada.`);
-                compt2++;
+            if (compt2 < 5) {
+                if (tornJugador != 2) {
+                    res.send('El jugador 1 encara no ha tirat.');
+                } else {
+                    partidaActual.jugadesJugador2 += `${jugada} `;
+                    console.log(llistaPartides);
+                    tornJugador = 1;
+                    compt2++;
+                    res.send(`Jugada ${compt2} executada.`);
+                }
             } else {
                 res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador. \n ${JSON.stringify(partidaActual)}`);
+                tornJugador = 1;
             }
         }
     }
@@ -116,7 +130,11 @@ app.delete('/api/acabarJoc/codiPartida', (req, res) => {
             jugades += 'Jugador1 ';
             guanyador = 'Jugador1';
             wJug1 += 1;
-        } else {
+        } else if (jugadesJugador2[i] === "") {
+            guanyador = 'Jugador1';
+            wJug1 += 1;
+        }
+        else {
             jugades += 'Jugador2 ';
             guanyador = 'Jugador2';
             wJug2 += 1;
@@ -139,11 +157,12 @@ app.delete('/api/acabarJoc/codiPartida', (req, res) => {
         resultats.push({ GuanyadorFinal: "Empat" });
         acabarPartida.guanyador = "Empat";
     }
-    acabarPartida.estatPartida = "Acabada.";
-    console.log(acabarPartida);
     res.send(resultats);
-    partidesAcabades.push(codi);
-    compt = 1; compt2 = 1;
+    if(jugadesJugador1.length == 5 && jugadesJugador2.length == 5){
+        acabarPartida.estatPartida = "Acabada.";
+        partidesAcabades.push(codi);
+        compt = 1; compt2 = 1;
+    }
 });
 
 app.listen(3001, () => console.log('Servidor iniciat.'));
