@@ -40,7 +40,7 @@ app.get('/api/consultarEstatPartida/:codi', (req, res) => {
 
 
 
-app.put('/api/moureJugador', (req, res) => { // /api/moureJugador/123/1/tisores
+app.put('/api/moureJugador', (req, res) => { // /api/moureJugador
     let codi = parseInt(req.body.codi);
     let seguiment = seguimentPartida.find(a => a.codi === codi);
     let partidaActual = llistaPartides.find(a => a.codi === codi);
@@ -52,36 +52,32 @@ app.put('/api/moureJugador', (req, res) => { // /api/moureJugador/123/1/tisores
     else if (partidesAcabades.includes(codi)) res.send("Aquesta partida ja ha acabat.");
     else if (codis.includes(codi)) {
         if (jugador == 1) {
-            if (seguiment.compt < 5) {
-                if (seguiment.tornJugador != 1) {
-                    res.send('El jugador 2 encara no ha tirat.');
-                } else {
-                    partidaActual.jugadesJugador1 += `${jugada} `;
-                    console.log(llistaPartides);
-                    seguiment.tornJugador = 2;
-                    seguiment.compt++;
-                    res.send(`Jugada ${seguiment.compt} executada.`);
-                }
+            if (seguiment.tornJugador != 1) {
+                res.send('El jugador 2 encara no ha tirat.');
             } else {
-                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
+                partidaActual.jugadesJugador1 += `${jugada} `;
+                console.log(llistaPartides);
                 seguiment.tornJugador = 2;
+                seguiment.compt++;
+                if (seguiment.compt == 5) {
+                    res.send(`Jugada ${seguiment.compt} executada.\nPartida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
+                    seguiment.tornJugador = 2;
+                } else res.send(`Jugada ${seguiment.compt} executada.`);
             }
         }
 
         if (jugador == 2) {
-            if (seguiment.compt2 < 5) {
-                if (seguiment.tornJugador != 2) {
-                    res.send('El jugador 1 encara no ha tirat.');
-                } else {
-                    partidaActual.jugadesJugador2 += `${jugada} `;
-                    console.log(llistaPartides);
-                    seguiment.tornJugador = 1;
-                    seguiment.compt2++;
-                    res.send(`Jugada ${seguiment.compt2} executada.`);
-                }
+            if (seguiment.tornJugador != 2) {
+                res.send('El jugador 1 encara no ha tirat.');
             } else {
-                res.send(`Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
+                partidaActual.jugadesJugador2 += `${jugada} `;
+                console.log(llistaPartides);
                 seguiment.tornJugador = 1;
+                seguiment.compt2++;
+                if (seguiment.compt2 == 5) {
+                    res.send(`Jugada ${seguiment.compt2} executada.\nPartida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
+                    seguiment.tornJugador = 1;
+                } else res.send(`Jugada ${seguiment.compt2} executada.`);
             }
         }
     }
@@ -97,7 +93,7 @@ app.delete('/api/acabarJoc/:codi', (req, res) => {
     let guanyador = '';
     let acabarPartida = llistaPartides.find(a => a.codi === codi);
 
-    if(codis.includes(codi)){
+    if (codis.includes(codi)) {
         let jugadesJugador1 = acabarPartida.jugadesJugador1.split(" ");
         let jugadesJugador2 = acabarPartida.jugadesJugador2.split(" ");
 
@@ -139,8 +135,8 @@ app.delete('/api/acabarJoc/:codi', (req, res) => {
             resultats.push({ GuanyadorFinal: "Empat" });
             acabarPartida.guanyador = "Empat";
         }
-        
-        if(seguiment.compt == 5 && seguiment.compt == 5){
+
+        if (seguiment.compt == 5 && seguiment.compt2 == 5) {
             acabarPartida.estatPartida = "Acabada.";
             partidesAcabades.push(codi);
         }
