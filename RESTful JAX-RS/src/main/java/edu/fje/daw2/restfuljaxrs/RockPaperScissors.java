@@ -17,6 +17,7 @@ public class RockPaperScissors {
     private UriInfo context;
     private static List<Partida> llistaPartides = new ArrayList<Partida>();
     private static List<Integer> codis = new ArrayList<Integer>();
+    private static List<seguimentPartida> seguiment = new ArrayList<seguimentPartida>();
     public static int compt = 0;
     public static int compt2 = 0;
 
@@ -36,7 +37,9 @@ public class RockPaperScissors {
         }
         codis.add(codi);
         Partida temp = new Partida(codi, nom, "Iniciada","","","","");
+        seguimentPartida temp2 = new seguimentPartida(codi, 0, 0,1,0,0);
         llistaPartides.add(temp);
+        seguiment.add(temp2);
         System.out.println(llistaPartides.toString());
         return "Partida creada. Número de partida: "+codi+".";
     }
@@ -60,21 +63,44 @@ public class RockPaperScissors {
     @Produces(MediaType.TEXT_PLAIN)
     public String moureJugador(@PathParam("codiPartida") int codi, @PathParam("jugador") int jugador, @PathParam("jugada") String jugada){
         Partida temp = new Partida(codi, "","","","","","");
-        int pos = llistaPartides.indexOf(temp);
+        seguimentPartida temp2 = new seguimentPartida(codi,0 ,0,1,0,0);
 
-        if (!codis.contains(codi)) return "Si us plau introdueix un codi vàlid.";
-        else if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
+        if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
         else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
-        else if((jugador == 1 && compt >= 5) || (jugador == 2 && compt2 >= 5)) return "Partida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.";
-        else if (jugador == 2) {
-            llistaPartides.get(pos).setJugadesJugador2(jugada+" ");
-            compt2++;
-            return "Jugada "+compt2+" executada.";
+        else if (codis.contains(codi)) {
+            if(jugador == 1) {
+                if (seguiment.get(seguiment.indexOf(temp2)).getTornJugador() != 1) {
+                    return "El jugador 2 encara no ha tirat.";
+                } else {
+                    llistaPartides.get(llistaPartides.indexOf(temp)).setJugadesJugador1(jugada+" ");
+                    seguiment.get(seguiment.indexOf(temp2)).setTornJugador(2);
+                    seguiment.get(seguiment.indexOf(temp2)).setCompt(seguiment.get(seguiment.indexOf(temp2)).getCompt() + 1);
+                    System.out.println(llistaPartides.toString());
+                    System.out.println(seguiment.toString());
+                    if (seguiment.get(seguiment.indexOf(temp2)).getCompt() >= 5) {
+                        seguiment.get(seguiment.indexOf(temp2)).setTornJugador(2);
+                        return "Jugada "+seguiment.get(seguiment.indexOf(temp2)).getCompt()+" executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
+                    }
+                    return "Jugada" +seguiment.get(seguiment.indexOf(temp2)).getCompt()+" executada.";
+                }
+            }
+
+            else {
+                if (seguiment.get(seguiment.indexOf(temp2)).getTornJugador() != 2) {
+                    return "El jugador 1 encara no ha tirat.";
+                } else {
+                    llistaPartides.get(llistaPartides.indexOf(temp)).setJugadesJugador2(jugada+" ");
+                    seguiment.get(seguiment.indexOf(temp2)).setTornJugador(1);
+                    seguiment.get(seguiment.indexOf(temp2)).setCompt2(seguiment.get(seguiment.indexOf(temp2)).getCompt2() + 1);
+                    if (seguiment.get(seguiment.indexOf(temp2)).getCompt2() >= 5) {
+                        seguiment.get(seguiment.indexOf(temp2)).setTornJugador(1);
+                        return "Jugada "+seguiment.get(seguiment.indexOf(temp2)).getCompt2()+" executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
+                    }
+                    return "Jugada " +seguiment.get(seguiment.indexOf(temp2)).getCompt2()+" executada.";
+                }
+            }
         }
-        llistaPartides.get(pos).setJugadesJugador1(jugada+" ");     // S'afegeix la jugada a jugadesJugador1
-        System.out.println(llistaPartides.toString());
-        compt++;
-        return "Jugada "+compt+" executada.";
+        return "Introdueix un codi vàlid";
     }
 
     @Path("/acabarJoc/{codiPartida}")

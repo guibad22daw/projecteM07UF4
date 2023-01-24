@@ -59,8 +59,8 @@ app.put('/api/moureJugador', (req, res) => { // /api/moureJugador
                 console.log(llistaPartides);
                 seguiment.tornJugador = 2;
                 seguiment.compt++;
-                if (seguiment.compt == 5) {
-                    res.send(`Jugada ${seguiment.compt} executada.\nPartida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
+                if (seguiment.compt >= 5) {
+                    res.send(`Jugada ${seguiment.compt} executada.\nPartida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador.`);
                     seguiment.tornJugador = 2;
                 } else res.send(`Jugada ${seguiment.compt} executada.`);
             }
@@ -74,7 +74,7 @@ app.put('/api/moureJugador', (req, res) => { // /api/moureJugador
                 console.log(llistaPartides);
                 seguiment.tornJugador = 1;
                 seguiment.compt2++;
-                if (seguiment.compt2 == 5) {
+                if (seguiment.compt2 >= 5) {
                     res.send(`Jugada ${seguiment.compt2} executada.\nPartida finalitzada, acudeix a /consultarEstatPartida per esbrinar el guanyador.`);
                     seguiment.tornJugador = 1;
                 } else res.send(`Jugada ${seguiment.compt2} executada.`);
