@@ -68,20 +68,24 @@ public class RockPaperScissors {
         if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
         else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
         else if (codis.contains(codi)) {
-            if(jugador == 1) {
+            if (seguiment.get(seguiment.indexOf(temp2)).getCompt2() == 5 && seguiment.get(seguiment.indexOf(temp2)).getCompt() == 5) {
+                return "Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
+            }
+            else if(jugador == 1) {
                 if (seguiment.get(seguiment.indexOf(temp2)).getTornJugador() != 1) {
                     return "El jugador 2 encara no ha tirat.";
                 } else {
+                    seguiment.get(seguiment.indexOf(temp2)).setCompt(seguiment.get(seguiment.indexOf(temp2)).getCompt() + 1);
+                    System.out.println(seguiment.get(seguiment.indexOf(temp2)).getCompt());
                     llistaPartides.get(llistaPartides.indexOf(temp)).setJugadesJugador1(jugada+" ");
                     seguiment.get(seguiment.indexOf(temp2)).setTornJugador(2);
-                    seguiment.get(seguiment.indexOf(temp2)).setCompt(seguiment.get(seguiment.indexOf(temp2)).getCompt() + 1);
                     System.out.println(llistaPartides.toString());
                     System.out.println(seguiment.toString());
                     if (seguiment.get(seguiment.indexOf(temp2)).getCompt() >= 5) {
                         seguiment.get(seguiment.indexOf(temp2)).setTornJugador(2);
-                        return "Jugada "+seguiment.get(seguiment.indexOf(temp2)).getCompt()+" executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
+                        return "Jugada 5 executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
                     }
-                    return "Jugada" +seguiment.get(seguiment.indexOf(temp2)).getCompt()+" executada.";
+                    return "Jugada " +seguiment.get(seguiment.indexOf(temp2)).getCompt()+" executada.";
                 }
             }
 
@@ -89,12 +93,14 @@ public class RockPaperScissors {
                 if (seguiment.get(seguiment.indexOf(temp2)).getTornJugador() != 2) {
                     return "El jugador 1 encara no ha tirat.";
                 } else {
+                    seguiment.get(seguiment.indexOf(temp2)).setCompt2(seguiment.get(seguiment.indexOf(temp2)).getCompt2() + 1);
                     llistaPartides.get(llistaPartides.indexOf(temp)).setJugadesJugador2(jugada+" ");
                     seguiment.get(seguiment.indexOf(temp2)).setTornJugador(1);
-                    seguiment.get(seguiment.indexOf(temp2)).setCompt2(seguiment.get(seguiment.indexOf(temp2)).getCompt2() + 1);
+                    System.out.println(llistaPartides.toString());
+                    System.out.println(llistaPartides.toString());
                     if (seguiment.get(seguiment.indexOf(temp2)).getCompt2() >= 5) {
                         seguiment.get(seguiment.indexOf(temp2)).setTornJugador(1);
-                        return "Jugada "+seguiment.get(seguiment.indexOf(temp2)).getCompt2()+" executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
+                        return "Jugada 5 executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
                     }
                     return "Jugada " +seguiment.get(seguiment.indexOf(temp2)).getCompt2()+" executada.";
                 }
@@ -109,7 +115,6 @@ public class RockPaperScissors {
     public Response acabarJoc(@PathParam("codiPartida") int codi) {
         int wJug=0, wJug2=0;
         String guanyador;
-
 
         Partida temp = new Partida(codi, "","","","","","");
         int pos = llistaPartides.indexOf(temp);
