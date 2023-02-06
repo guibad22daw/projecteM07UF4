@@ -18,8 +18,6 @@ public class RockPaperScissors {
     private static List<Partida> llistaPartides = new ArrayList<Partida>();
     private static List<Integer> codis = new ArrayList<Integer>();
     private static List<seguimentPartida> seguiment = new ArrayList<seguimentPartida>();
-    public static int compt = 0;
-    public static int compt2 = 0;
 
     public RockPaperScissors() {
         if (llistaPartides.size() == 0) {
@@ -112,12 +110,48 @@ public class RockPaperScissors {
     @Path("/acabarJoc/{codiPartida}")
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    public Response acabarJoc(@PathParam("codiPartida") int codi) {
-        int wJug=0, wJug2=0;
-        String guanyador;
+    public String acabarJoc(@PathParam("codiPartida") int codi) {
+        Partida partidaTemp = new Partida(codi, "","","","","","");
+        int pos = llistaPartides.indexOf(partidaTemp);
+        seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,0,0);
+        int pos2 = seguiment.indexOf(seguimentTemp);
 
-        Partida temp = new Partida(codi, "","","","","","");
-        int pos = llistaPartides.indexOf(temp);
+        String[] jugadesJugador1 = (llistaPartides.get(pos).getJugadesJugador1()).split(" ");
+        String[] jugadesJugador2 = (llistaPartides.get(pos).getJugadesJugador2()).split(" ");
+        ArrayList<String> jugades = new ArrayList<>();
+        String guanyador;
+        System.out.println(Arrays.toString(jugadesJugador1));
+
+        for (int i=0; i<jugadesJugador1.length - 1; i++) {
+            if (jugadesJugador1[i].equals(jugadesJugador2[i])) {
+                jugades.add("Empat");
+                guanyador = "Empat";
+            } else if (jugadesJugador1[i].equals("pedra") && jugadesJugador2[i].equals("tisores") || jugadesJugador1[i].equals("paper") && jugadesJugador2[i].equals("pedra") ||
+                    jugadesJugador1[i].equals("tisores") && jugadesJugador2[i].equals("paper")) {
+                jugades.add("Jugador 1");
+                guanyador = "Jugador1";
+                seguiment.get(pos2).setwJug1(seguiment.get(pos2).getwJug1() + 1);
+
+            } else if (jugadesJugador2[i].equals("")) {
+                jugades.add("Jugador 1");
+                guanyador = "Jugador 1";
+                seguiment.get(pos2).setwJug1(seguiment.get(pos2).getwJug1() + 1);
+            } else {
+                jugades.add("Jugador 2");
+                guanyador = "Jugador 2";
+                seguiment.get(pos2).setwJug2(seguiment.get(pos2).getwJug2() + 1);
+            }
+        }
+
+        if(seguiment.get(pos2).getwJug1() > seguiment.get(pos2).getwJug2()) {
+            llistaPartides.get(pos).setGuanyador("Jugador 1");
+        } else if (seguiment.get(pos2).getwJug1() < seguiment.get(pos2).getwJug2()) {
+            llistaPartides.get(pos).setGuanyador("Jugador 2");
+        } else {
+            llistaPartides.get(pos).setGuanyador("Empat");
+        }
+
+        /* int pos = llistaPartides.indexOf(temp);
         List<String> jugadesJugador1 = new ArrayList<String>();
         List<String> jugadesJugador2 = new ArrayList<String>();
         jugadesJugador1.add(llistaPartides.get(pos).getJugadesJugador1());
@@ -125,7 +159,8 @@ public class RockPaperScissors {
         System.out.println(jugadesJugador1);
         System.out.println(jugadesJugador2.toString());
         llistaPartides.get(pos).getJugadesJugador1();
-        return Response.status(200).entity("alumne modificat").build();
+        return Response.status(200).entity("alumne modificat").build(); */
+        return llistaPartides.get(pos).toString();
     }
 
     @POST
