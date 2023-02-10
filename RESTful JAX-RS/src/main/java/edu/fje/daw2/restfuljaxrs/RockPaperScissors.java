@@ -49,7 +49,7 @@ public class RockPaperScissors {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String consultarEstatPartida(@PathParam("codiPartida") int codi) {
-        if (codis.contains(codi)) {
+        if ((codis.contains(codi)) || partidesAcabades.contains(codi)) {
             Partida temp = new Partida(codi,"","","","","","");
             int pos = llistaPartides.indexOf(temp);
             return llistaPartides.get(pos).toString();
@@ -165,7 +165,7 @@ public class RockPaperScissors {
 
         if (seguiment.get(pos2).getCompt() >= 5 && seguiment.get(pos2).getCompt2() >= 5) {
             partidesAcabades.add(codi);
-            codis.remove(codi);
+            codis.remove(codis.indexOf(codi));
             llistaPartides.get(pos).setEstatPartida("Finalitzada");
         }
         return llistaPartides.get(pos).toString();
