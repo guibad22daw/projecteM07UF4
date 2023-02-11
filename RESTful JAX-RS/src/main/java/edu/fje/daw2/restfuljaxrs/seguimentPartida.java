@@ -7,14 +7,17 @@ public class seguimentPartida {
     private int tornJugador;
     private int wJug1;
     private int wJug2;
+    private int jugat;
 
-    public seguimentPartida(int codi, int compt, int compt2, int tornJugador, int wJug1, int wJug2) {
+
+    public seguimentPartida(int codi, int compt, int compt2, int tornJugador, int wJug1, int wJug2, int jugat) {
         this.codi = codi;
         this.compt = compt;
         this.compt2 = compt2;
         this.tornJugador = tornJugador;
         this.wJug1 = wJug1;
         this.wJug2 = wJug2;
+        this.jugat = jugat;
     }
 
     public int getCodi() {
@@ -65,6 +68,14 @@ public class seguimentPartida {
         this.wJug2 = wJug2;
     }
 
+    public int getJugat() {
+        return jugat;
+    }
+
+    public void setJugat(int jugat) {
+        this.jugat = jugat;
+    }
+
     @Override
     public String toString() {
         return "seguimentPartida{" +
@@ -74,6 +85,7 @@ public class seguimentPartida {
                 ", tornJugador=" + tornJugador +
                 ", wJug1=" + wJug1 +
                 ", wJug2=" + wJug2 +
+                ", jugat=" + jugat +
                 '}';
     }
 
