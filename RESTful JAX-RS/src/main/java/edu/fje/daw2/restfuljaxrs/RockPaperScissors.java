@@ -22,8 +22,8 @@ public class RockPaperScissors {
 
     public RockPaperScissors() {
         if (llistaPartides.size() == 0) {
-            llistaPartides.add(new Partida(123,"Guillem", "Iniciada.","", 0,0,""));
-            codis.add(123);
+            llistaPartides.add(new Partida(0,"Iniciada", "","", 0,0,""));
+            codis.add(0);
         }
     }
 
@@ -41,7 +41,7 @@ public class RockPaperScissors {
         seguimentPartida temp2 = new seguimentPartida(codi, 0, 0,1,1);
         llistaPartides.add(temp);
         seguiment.add(temp2);
-        System.out.println(llistaPartides.toString());
+        System.out.println(llistaPartides.get(llistaPartides.indexOf(temp)).toString());
         return "Partida creada. Número de partida: "+codi+".";
     }
 
@@ -51,54 +51,72 @@ public class RockPaperScissors {
     public String jugarPartida(@PathParam("codiPartida") int codi) {
         Partida partidaTemp = new Partida(codi, "","","",0,0,"");
         int pos = llistaPartides.indexOf(partidaTemp);
-        seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,1);
-        int pos2 = seguiment.indexOf(seguimentTemp);
 
-        if (llistaPartides.get(pos).getEstatPartida().equals("Iniciada")) {
-            return "La partida amb codi " + codi + " no està en joc.";
-        } else if (codis.contains(codi) && llistaPartides.get(pos).getEstatPartida().equals("En joc") && seguiment.get(pos2).getCompt() == seguiment.get(pos2).getCompt2()) {
-            seguiment.get(pos2).setJugat(1);
-
-            String[] jugadesJugador1 = (llistaPartides.get(pos).getJugadesJugador1()).split(" ");
-            String[] jugadesJugador2 = (llistaPartides.get(pos).getJugadesJugador2()).split(" ");
-            System.out.println(Arrays.toString(jugadesJugador1));
-
-            llistaPartides.get(pos).setwJug1(0);
-            llistaPartides.get(pos).setwJug2(0);
-
-            for (int i=0; i < jugadesJugador1.length; i++) {
-                if (jugadesJugador1[i].equals(jugadesJugador2[i])) {
-                    llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1());
-                } else if (jugadesJugador1[i].equals("pedra") && jugadesJugador2[i].equals("tisores") || jugadesJugador1[i].equals("paper") && jugadesJugador2[i].equals("pedra") ||
-                        jugadesJugador1[i].equals("tisores") && jugadesJugador2[i].equals("paper")) {
-                    llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1()+1);
-                } else if (jugadesJugador2[i].equals("")) {
-                    llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1()+1);
-                } else {
-                    llistaPartides.get(pos).setwJug2(llistaPartides.get(pos).getwJug2()+1);
-                }
-            }
-
-            if(llistaPartides.get(pos).getwJug1() == 3) {
-                llistaPartides.get(pos).setGuanyador("Jugador 1");
-                partidesAcabades.add(codi);
-                return "Guanya jugador 1";
-            } else if (llistaPartides.get(pos).getwJug2() == 3) {
-                llistaPartides.get(pos).setGuanyador("Jugador 2");
-                partidesAcabades.add(codi);
-                return "Guanya jugador 2";
-            } else {
-
-            }
-
-            return llistaPartides.get(pos).toString();
-        } else if (seguiment.get(pos2).getCompt() != seguiment.get(pos2).getCompt2()) {
-            return "El jugador 2 encara no ha llençat";
-        } else if (partidesAcabades.contains(codi)) {
+        if (partidesAcabades.contains(codi)) {
             return "Aquesta partida ja ha finalitzat. Guanyador: "+ llistaPartides.get(pos).getGuanyador();
         } else {
-            return "La partida amb codi " + codi + " no existeix";
+            seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,1);
+            int pos2 = seguiment.indexOf(seguimentTemp);
+
+            if (llistaPartides.get(pos).getEstatPartida().equals("Iniciada")) {
+                return "La partida amb codi " + codi + " no està en joc.";
+            } else if (codis.contains(codi) && llistaPartides.get(pos).getEstatPartida().equals("En joc") && seguiment.get(pos2).getCompt() == seguiment.get(pos2).getCompt2()) {
+                seguiment.get(pos2).setJugat(1);
+
+                String[] jugadesJugador1 = (llistaPartides.get(pos).getJugadesJugador1()).split(" ");
+                String[] jugadesJugador2 = (llistaPartides.get(pos).getJugadesJugador2()).split(" ");
+                System.out.println(Arrays.toString(jugadesJugador1));
+
+                llistaPartides.get(pos).setwJug1(0);
+                llistaPartides.get(pos).setwJug2(0);
+
+                for (int i=0; i < jugadesJugador1.length; i++) {
+                    if (jugadesJugador1[i].equals(jugadesJugador2[i])) {
+                        llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1());
+                    } else if (jugadesJugador1[i].equals("pedra") && jugadesJugador2[i].equals("tisores") || jugadesJugador1[i].equals("paper") && jugadesJugador2[i].equals("pedra") ||
+                            jugadesJugador1[i].equals("tisores") && jugadesJugador2[i].equals("paper")) {
+                        llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1()+1);
+                    } else if (jugadesJugador2[i].equals("")) {
+                        llistaPartides.get(pos).setwJug1(llistaPartides.get(pos).getwJug1()+1);
+                    } else {
+                        llistaPartides.get(pos).setwJug2(llistaPartides.get(pos).getwJug2()+1);
+                    }
+                }
+
+                if(llistaPartides.get(pos).getwJug1() == 3) {
+                    llistaPartides.get(pos).setGuanyador("Jugador 1");
+                    partidesAcabades.add(codi);
+                    return "El jugador 1 guanya la partida.\n"+llistaPartides.get(pos).toString();
+                } else if (llistaPartides.get(pos).getwJug2() == 3) {
+                    llistaPartides.get(pos).setGuanyador("Jugador 2");
+                    partidesAcabades.add(codi);
+                    return "El jugador 2 guanya la partida.\n"+llistaPartides.get(pos).toString();
+                } else {
+                    if (seguiment.get(pos2).getCompt() >= 5 && seguiment.get(pos2).getCompt2() >= 5) {
+                        if (llistaPartides.get(pos).getwJug1() > llistaPartides.get(pos).getwJug2()){
+                            llistaPartides.get(pos).setGuanyador("Jugador 1");
+                            partidesAcabades.add(codi);
+                            return "El jugador 1 guanya la partida.\n"+llistaPartides.get(pos).toString();
+                        } else if (llistaPartides.get(pos).getwJug1() < llistaPartides.get(pos).getwJug2()){
+                            llistaPartides.get(pos).setGuanyador("Jugador 2");
+                            partidesAcabades.add(codi);
+                            return "El jugador 2 guanya la partida.\n"+llistaPartides.get(pos).toString();
+                        } else {
+                            llistaPartides.get(pos).setGuanyador("Empat");
+                            partidesAcabades.add(codi);
+                            return "La partida finalitza en empat.\n"+llistaPartides.get(pos).toString();
+                        }
+                    }
+                }
+
+                return llistaPartides.get(pos).toString();
+            } else if (seguiment.get(pos2).getCompt() != seguiment.get(pos2).getCompt2()) {
+                return "El jugador 2 encara no ha llençat";
+            } else {
+                return "La partida amb codi " + codi + " no existeix";
+            }
         }
+
     }
 
     @Path("/consultarEstatPartida/{codiPartida}")
@@ -112,7 +130,6 @@ public class RockPaperScissors {
         } else {
             return "La partida amb codi " + codi + " no existeix.";
         }
-
     }
 
     @Path("/moureJugador/{codiPartida}/{jugador}/{jugada}")
@@ -123,15 +140,13 @@ public class RockPaperScissors {
         seguimentPartida temp2 = new seguimentPartida(codi,0 ,0,1,1);
         int pos = llistaPartides.indexOf(temp);
         int pos2 = seguiment.indexOf(temp2);
-        llistaPartides.get(pos).setEstatPartida("En joc");
 
         if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
         else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
         else if (partidesAcabades.contains(codi)) return "Aquesta partida ja ha finalitzat.";
         else if (codis.contains(codi)) {
-            if (seguiment.get(pos2).getCompt2() == 5 && seguiment.get(pos2).getCompt() == 5) {
-                return "Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
-            } else if (seguiment.get(pos2).getJugat() == 0 && seguiment.get(pos2).getTornJugador() == 1) {
+            llistaPartides.get(pos).setEstatPartida("En joc");
+            if (seguiment.get(pos2).getJugat() == 0 && seguiment.get(pos2).getTornJugador() == 1) {
                 return "Encara no s'ha jugat la partida";
             } else if(jugador == 1) {
                 if (seguiment.get(pos2).getTornJugador() != 1) {
@@ -141,11 +156,6 @@ public class RockPaperScissors {
                     seguiment.get(pos2).setCompt(seguiment.get(pos2).getCompt() + 1);
                     llistaPartides.get(pos).setJugadesJugador1(llistaPartides.get(pos).getJugadesJugador1()+jugada+" ");
                     seguiment.get(pos2).setTornJugador(2);
-                    if (seguiment.get(pos2).getCompt() >= 5) {
-                        seguiment.get(pos2).setTornJugador(2);
-                        seguiment.get(pos2).setCompt(5);
-                        return "Jugada 5 executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
-                    }
                     System.out.println(llistaPartides.get(pos).toString());
                     return "Jugada " +seguiment.get(pos2).getCompt()+" executada.";
                 }
@@ -158,11 +168,6 @@ public class RockPaperScissors {
                     seguiment.get(pos2).setCompt2(seguiment.get(pos2).getCompt2() + 1);
                     llistaPartides.get(pos).setJugadesJugador2(llistaPartides.get(pos).getJugadesJugador2()+jugada+" ");
                     seguiment.get(pos2).setTornJugador(1);
-                    if (seguiment.get(pos2).getCompt2() >= 5) {
-                        seguiment.get(pos2).setTornJugador(1);
-                        seguiment.get(pos2).setCompt2(5);
-                        return "Jugada 5 executada. Partida finalitzada, acudeix a /acabarJoc per esbrinar el guanyador";
-                    }
                     System.out.println(llistaPartides.get(pos).toString());
                     return "Jugada " +seguiment.get(pos2).getCompt2()+" executada.";
                 }
@@ -183,10 +188,15 @@ public class RockPaperScissors {
             partidesAcabades.add(codi);
             codis.remove(codis.indexOf(codi));
             llistaPartides.get(pos).setEstatPartida("Finalitzada");
+            seguiment.remove(seguimentTemp);
             return "Partida finalitzada. \n"+llistaPartides.get(pos).toString();
+        } else if (partidesAcabades.contains(codi)) {
+            llistaPartides.get(pos).setEstatPartida("Finalitzada");
+            seguiment.remove(seguimentTemp);
+            return "Aquesta partida ja ha finalitzat.";
+        } else {
+            return "La partida amb el codi " + codi + " no existeix";
         }
-
-        return llistaPartides.get(pos).toString();
     }
 }
 
