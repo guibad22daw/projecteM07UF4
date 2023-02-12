@@ -2,20 +2,21 @@ package edu.fje.daw2.restfuljaxrs;
 
 public class Partida {
     private int codi;
-    private String nom;
     private String estatPartida;
     private String jugadesJugador1;
     private String jugadesJugador2;
-    private String resultats;
+    private int wJug1;
+    private int wJug2;
+
     private String guanyador;
 
-    public Partida(int codi, String nom, String estatPartida, String jugadesJugador1, String jugadesJugador2, String resultats, String guanyador) {
+    public Partida(int codi, String estatPartida, String jugadesJugador1, String jugadesJugador2, int wJug1, int wJug2, String guanyador) {
         this.codi = codi;
-        this.nom = nom;
         this.estatPartida = estatPartida;
         this.jugadesJugador1 = jugadesJugador1;
         this.jugadesJugador2 = jugadesJugador2;
-        this.resultats = resultats;
+        this.wJug1 = wJug1;
+        this.wJug2 = wJug2;
         this.guanyador = guanyador;
     }
 
@@ -25,14 +26,6 @@ public class Partida {
 
     public void setCodi(int codi) {
         this.codi = codi;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
     }
 
     public String getEstatPartida() {
@@ -48,7 +41,7 @@ public class Partida {
     }
 
     public void setJugadesJugador1(String jugadesJugador1) {
-        this.jugadesJugador1 += jugadesJugador1;
+        this.jugadesJugador1 = jugadesJugador1;
     }
 
     public String getJugadesJugador2() {
@@ -56,15 +49,23 @@ public class Partida {
     }
 
     public void setJugadesJugador2(String jugadesJugador2) {
-        this.jugadesJugador2 += jugadesJugador2;
+        this.jugadesJugador2 = jugadesJugador2;
     }
 
-    public String getResultats() {
-        return resultats;
+    public int getwJug1() {
+        return wJug1;
     }
 
-    public void setResultats(String resultats) {
-        this.resultats = resultats;
+    public void setwJug1(int wJug1) {
+        this.wJug1 = wJug1;
+    }
+
+    public int getwJug2() {
+        return wJug2;
+    }
+
+    public void setwJug2(int wJug2) {
+        this.wJug2 = wJug2;
     }
 
     public String getGuanyador() {
@@ -78,14 +79,14 @@ public class Partida {
     @Override
     public String toString() {
         return "Partida{" +
-            "codi=" + codi +
-            ", nom='" + nom + '\'' +
-            ", estatPartida='" + estatPartida + '\'' +
-            ", jugadesJugador1='" + jugadesJugador1 + '\'' +
-            ", jugadesJugador2='" + jugadesJugador2 + '\'' +
-            ", resultats='" + resultats + '\'' +
-            ", guanyador='" + guanyador + '\'' +
-            '}';
+                "codi=" + codi +
+                ", estatPartida='" + estatPartida + '\'' +
+                ", jugadesJugador1='" + jugadesJugador1 + '\'' +
+                ", jugadesJugador2='" + jugadesJugador2 + '\'' +
+                ", wJug1=" + wJug1 +
+                ", wJug2=" + wJug2 +
+                ", guanyador='" + guanyador + '\'' +
+                '}';
     }
 
     @Override

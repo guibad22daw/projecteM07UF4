@@ -5,18 +5,14 @@ public class seguimentPartida {
     private int compt;
     private int compt2;
     private int tornJugador;
-    private int wJug1;
-    private int wJug2;
     private int jugat;
 
 
-    public seguimentPartida(int codi, int compt, int compt2, int tornJugador, int wJug1, int wJug2, int jugat) {
+    public seguimentPartida(int codi, int compt, int compt2, int tornJugador, int jugat) {
         this.codi = codi;
         this.compt = compt;
         this.compt2 = compt2;
         this.tornJugador = tornJugador;
-        this.wJug1 = wJug1;
-        this.wJug2 = wJug2;
         this.jugat = jugat;
     }
 
@@ -52,22 +48,6 @@ public class seguimentPartida {
         this.tornJugador = tornJugador;
     }
 
-    public int getwJug1() {
-        return wJug1;
-    }
-
-    public void setwJug1(int wJug1) {
-        this.wJug1 = wJug1;
-    }
-
-    public int getwJug2() {
-        return wJug2;
-    }
-
-    public void setwJug2(int wJug2) {
-        this.wJug2 = wJug2;
-    }
-
     public int getJugat() {
         return jugat;
     }
@@ -83,8 +63,6 @@ public class seguimentPartida {
                 ", compt=" + compt +
                 ", compt2=" + compt2 +
                 ", tornJugador=" + tornJugador +
-                ", wJug1=" + wJug1 +
-                ", wJug2=" + wJug2 +
                 ", jugat=" + jugat +
                 '}';
     }
