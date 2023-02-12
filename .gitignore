@@ -43,3 +43,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /SOAP/backendSOAP/nbproject/private/
+/SOAP/consumidorSOAP/nbproject/private/
