@@ -46,15 +46,17 @@ public class RockPaperScissors {
     }
 
     @Path("/jugarPartida/{codiPartida}")
-    @GET
+    @PUT
     @Produces(MediaType.TEXT_PLAIN)
     public String jugarPartida(@PathParam("codiPartida") int codi) {
-        if (codis.contains(codi)) {
-            Partida partidaTemp = new Partida(codi, "","","","","","");
-            int pos = llistaPartides.indexOf(partidaTemp);
-            seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,0,0,1);
-            int pos2 = seguiment.indexOf(seguimentTemp);
+        Partida partidaTemp = new Partida(codi, "","","","","","");
+        int pos = llistaPartides.indexOf(partidaTemp);
+        seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,0,0,1);
+        int pos2 = seguiment.indexOf(seguimentTemp);
 
+        if (llistaPartides.get(pos).getEstatPartida().equals("Iniciada")) {
+            return "La partida amb codi " + codi + " no està en joc.";
+        } else if (codis.contains(codi)) {
             seguiment.get(pos2).setJugat(1);
 
             String[] jugadesJugador1 = (llistaPartides.get(pos).getJugadesJugador1()).split(" ");
@@ -98,7 +100,7 @@ public class RockPaperScissors {
 
             return llistaPartides.get(pos).toString();
         } else {
-            return "La partida amb codi " + codi + " no existeix.";
+            return "La partida amb codi " + codi + " no existeix";
         }
     }
 
@@ -124,6 +126,7 @@ public class RockPaperScissors {
         seguimentPartida temp2 = new seguimentPartida(codi,0 ,0,1,0,0,1);
         int pos = llistaPartides.indexOf(temp);
         int pos2 = seguiment.indexOf(temp2);
+        llistaPartides.get(pos).setEstatPartida("En joc");
 
         if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
         else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
