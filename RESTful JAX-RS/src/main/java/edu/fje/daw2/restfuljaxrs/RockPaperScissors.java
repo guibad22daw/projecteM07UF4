@@ -141,7 +141,7 @@ public class RockPaperScissors {
         int pos = llistaPartides.indexOf(temp);
         int pos2 = seguiment.indexOf(temp2);
 
-        if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Escull una jugada: pedra, paper o tisores.";
+        if (!jugada.equals("pedra") && !jugada.equals("paper") && !jugada.equals("tisores")) return "Jugada no vàlida. Introdueix un dels següents moviments: pedra, paper, tisores.";
         else if (!(jugador > 0 && jugador <= 2)) return "Només pot haver-hi jugador 1 i jugador 2";
         else if (partidesAcabades.contains(codi)) return "Aquesta partida ja ha finalitzat.";
         else if (codis.contains(codi)) {
