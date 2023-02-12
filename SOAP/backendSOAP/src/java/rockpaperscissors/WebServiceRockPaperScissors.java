@@ -1,29 +1,24 @@
-package edu.fje.daw2.restfuljaxrs;
+package rockpaperscissors;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import java.util.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 
-@Path("daw2")
-public class RockPaperScissors {
 
+@WebService(serviceName = "WebServiceRockPaperScissors")
+public class WebServiceRockPaperScissors {
     @Context
     private UriInfo context;
     private static List<Partida> llistaPartides = new ArrayList<Partida>();
     private static List<Integer> codis = new ArrayList<Integer>();
     private static List<Integer> partidesAcabades = new ArrayList<Integer>();
     private static List<seguimentPartida> seguiment = new ArrayList<seguimentPartida>();
-
-    @Path("/iniciarJoc/{codiPartida}")
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    public String iniciarJoc(@PathParam("codiPartida") int codi) {
+    
+    @WebMethod(operationName = "iniciarPartida")
+    public String iniciarJoc(@WebParam(name = "codi") int codi) {
         if(codis.contains(codi)) {
             return "Ja existeix una partida amb aquest codi.";
         } else if (partidesAcabades.contains(codi)) {
@@ -37,11 +32,9 @@ public class RockPaperScissors {
         System.out.println(llistaPartides.get(llistaPartides.indexOf(temp)).toString());
         return "Partida creada. Número de partida: "+codi+".";
     }
-
-    @Path("/jugarPartida/{codiPartida}")
-    @PUT
-    @Produces(MediaType.TEXT_PLAIN)
-    public String jugarPartida(@PathParam("codiPartida") int codi) {
+    
+    @WebMethod(operationName = "jugarPartida")
+    public String jugarPartida(@WebParam(name = "codi") int codi) {
         Partida partidaTemp = new Partida(codi, "","","",0,0,"");
         int pos = llistaPartides.indexOf(partidaTemp);
 
@@ -111,11 +104,9 @@ public class RockPaperScissors {
         }
 
     }
-
-    @Path("/consultarEstatPartida/{codiPartida}")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String consultarEstatPartida(@PathParam("codiPartida") int codi) {
+    
+    @WebMethod(operationName = "consultarEstatPartida")
+    public String consultarEstatPartida(@WebParam(name = "codi") int codi) {
         if ((codis.contains(codi)) || partidesAcabades.contains(codi)) {
             Partida temp = new Partida(codi,"","","",0,0,"");
             int pos = llistaPartides.indexOf(temp);
@@ -124,11 +115,9 @@ public class RockPaperScissors {
             return "La partida amb codi " + codi + " no existeix.";
         }
     }
-
-    @Path("/moureJugador/{codiPartida}/{jugador}/{jugada}")
-    @PUT
-    @Produces(MediaType.TEXT_PLAIN)
-    public String moureJugador(@PathParam("codiPartida") int codi, @PathParam("jugador") int jugador, @PathParam("jugada") String jugada){
+    
+    @WebMethod(operationName = "moureJugador")
+    public String moureJugador(@WebParam(name = "codi") int codi, @WebParam(name = "jugador") int jugador, @WebParam(name = "jugada") String jugada){
         Partida temp = new Partida(codi,"","","",0,0,"");
         seguimentPartida temp2 = new seguimentPartida(codi,0 ,0,1,1);
         int pos = llistaPartides.indexOf(temp);
@@ -168,11 +157,10 @@ public class RockPaperScissors {
         }
         return "Introdueix un codi vàlid";
     }
-
-    @Path("/acabarJoc/{codiPartida}")
-    @DELETE
-    @Produces(MediaType.TEXT_PLAIN)
-    public String acabarJoc(@PathParam("codiPartida") int codi) {
+    
+    
+    @WebMethod(operationName = "acabarJoc")
+    public String acabarJoc(@WebParam(name = "codi") int codi) {
         Partida partidaTemp = new Partida(codi,"","","",0,0,"");
         int pos = llistaPartides.indexOf(partidaTemp);
         seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,1);
@@ -191,5 +179,7 @@ public class RockPaperScissors {
             return "La partida amb el codi " + codi + " no existeix";
         }
     }
+    
+    
+    
 }
-
