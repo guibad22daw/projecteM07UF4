@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="inici()">
+    <label for="codi">Codi:</label>
+    <input id="codi" name="codi" type="number" required>
+    <button id="iniciarPartida" name="iniciarPartida" type="button">Iniciar partida</button><br>
+    <div id="iniciarResposta"></div><br>
+
+    <label for="jugador">Jugador:</label>
+    <select name="jugador" id="jugador">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+    </select>
+    
+    <br><br>
+
+    <label for="jugada">Jugada:</label>
+    <select name="jugada" id="jugada">
+        <option value="pedra" selected>Pedra</option>
+        <option value="paper">Paper</option>
+        <option value="tisores">Tisores</option>
+    </select><br>
+    <button id="moureJugador">Seleccionar jugada</button>
+    <div id="moureJugadorResposta"></div><br>
+
+    <br>
+
+    <button id="jugarPartida">Jugar Partida</button>
+    <div id="jugarResposta"></div><br><br>
+
+    <button id="consultaPartida">Consulta estat partida</button>
+    <div id="consultaResposta"></div><br><br>
+
+    <button id="acabarPartida">Acabar Partida</button>
+    <div id="acabarResposta"></div><br>
+</body>
+</html>
