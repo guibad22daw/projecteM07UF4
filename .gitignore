@@ -1,7 +1,7 @@
+target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-target/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -11,12 +11,6 @@ target/
 *.iws
 *.iml
 *.ipr
-mvnw
-mvnw.cmd
-pom.xml
-.idea
-.mvn
-resources
 
 ### Eclipse ###
 .apt_generated
@@ -42,7 +36,49 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/SOAP/backendSOAP/nbproject/private/
-/SOAP/consumidorSOAP/nbproject/private/
-
-node_modules
+SOAP/consumidorSOAP/src/META-INF/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.wsdl
+RESTful JAX-RS/mvnw
+SOAP/consumidorSOAP/xml-resources/web-service-references/WebServiceRockPaperScissors/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.wsdl
+SOAP/consumidorSOAP/src/META-INF/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.xsd_1.xsd
+SOAP/consumidorSOAP/src/META-INF/jax-ws-catalog.xml
+SOAP/consumidorSOAP/nbproject/private/config.properties
+RESTful JAX-RS/.mvn/wrapper/maven-wrapper.properties
+RESTful JAX-RS/mvnw.cmd
+RESTful JAX-RS/pom.xml
+RESTful JAX-RS/.idea/.gitignore
+RESTful JAX-RS/.idea/misc.xml
+SOAP/consumidorSOAP/nbproject/private/private.properties
+SOAP/consumidorSOAP/nbproject/project.xml
+SOAP/consumidorSOAP/nbproject/genfiles.properties
+SOAP/consumidorSOAP/nbproject/build-impl.xml
+RESTful JAX-RS/src/main/resources/META-INF/beans.xml
+SOAP/backendSOAP/nbproject/private/private.properties
+SOAP/consumidorSOAP/catalog.xml
+SOAP/consumidorSOAP/nbproject/project.properties
+RESTful JAX-RS/.mvn/wrapper/maven-wrapper.jar
+RESTful JAX-RS/.idea/encodings.xml
+RESTful JAX-RS/.idea/jarRepositories.xml
+RESTful JAX-RS/.idea/compiler.xml
+RESTful JAX-RS/.gitignore
+SOAP/consumidorSOAP/xml-resources/web-service-references/WebServiceRockPaperScissors/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.wsdl
+SOAP/consumidorSOAP/nbproject/project.xml
+SOAP/consumidorSOAP/nbproject/project.properties
+SOAP/consumidorSOAP/nbproject/genfiles.properties
+SOAP/consumidorSOAP/nbproject/build-impl.xml
+SOAP/consumidorSOAP/catalog.xml
+SOAP/consumidorSOAP/src/META-INF/jax-ws-catalog.xml
+SOAP/consumidorSOAP/nbproject/build-impl.xml
+SOAP/consumidorSOAP/nbproject/project.properties
+SOAP/consumidorSOAP/src/META-INF/jax-ws-catalog.xml
+SOAP/consumidorSOAP/xml-resources/web-service-references/WebServiceRockPaperScissors/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.wsdl
+SOAP/consumidorSOAP/nbproject/project.xml
+SOAP/consumidorSOAP/nbproject/genfiles.properties
+SOAP/consumidorSOAP/catalog.xml
+SOAP/consumidorSOAP/catalog.xml
+SOAP/consumidorSOAP/xml-resources/web-service-references/WebServiceRockPaperScissors/wsdl/localhost_8080/backendSOAP/WebServiceRockPaperScissors.wsdl
+SOAP/consumidorSOAP/src/META-INF/jax-ws-catalog.xml
+SOAP/consumidorSOAP/nbproject/project.xml
+SOAP/consumidorSOAP/nbproject/project.properties
+SOAP/consumidorSOAP/nbproject/genfiles.properties
+SOAP/consumidorSOAP/nbproject/build-impl.xml
+SOAP/consumidorSOAP/catalog.xml
