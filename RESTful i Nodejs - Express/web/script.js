@@ -52,8 +52,23 @@ function inici() {
         const response = await fetch(`http://localhost:3001/api/jugarPartida/${codi}`, requestOptions);
         if (response.ok) {
             const respostaJugar = await response.text();
-            console.log(respostaJugar);
-            document.getElementById("jugarResposta").innerHTML = respostaJugar;
+            try {
+                let partides = [];
+                let respostaJugarJSON = JSON.parse(respostaJugar);
+                partides.push(respostaJugarJSON);
+
+                var table = "<table class= table table-bordered table-hover table-condensed style='width: 800px; text-align: center'><tr><th>Codi</th><th>Estat</th><th>Jugades J1</th><th>Jugades J2</th><th>Guanyades J1</th><th>Guanyades J2</th><th>Guanyador</th></tr>";
+                console.log(partides.length);
+                for (var i = 0; i < partides.length; i++) {
+                    table += "<tr><td>" + partides[i].codi + "</td><td>" + partides[i].estatPartida + "</td><td>" + partides[i].jugadesJugador1 + "</td><td>" + partides[i].jugadesJugador2 + "</td><td>" + partides[i].wJug1 + "</td><td>" + partides[i].wJug2 + "</td><td>" + partides[i].guanyador + "</td></tr>";
+                    if (partides[i].codi == codi) break;
+                }
+                table += "</table>";
+                document.getElementById("jugarResposta").innerHTML = table;
+            } catch (err) {
+                console.log(err);
+                document.getElementById("jugarResposta").innerHTML = respostaJugar;
+            }
         }
     }
 
@@ -67,9 +82,24 @@ function inici() {
 
         const response = await fetch(`http://localhost:3001/api/consultarEstatPartida/${codi}`, requestOptions);
         if (response.ok) {
-            const respostaConsulta = await response.text();
-            console.log(respostaConsulta);
-            document.getElementById("consultaResposta").innerHTML = respostaConsulta;
+            try {
+                const respostaConsulta = await response.text();
+                let partides = [];
+                let respostaConsultaJSON = JSON.parse(respostaConsulta);
+                partides.push(respostaConsultaJSON);
+
+                var table = "<table class= table table-bordered table-hover table-condensed style='width: 800px; text-align: center'><tr><th>Codi</th><th>Estat</th><th>Jugades J1</th><th>Jugades J2</th><th>Guanyades J1</th><th>Guanyades J2</th><th>Guanyador</th></tr>";
+                console.log(partides.length);
+                for (var i = 0; i < partides.length; i++) {
+                    table += "<tr><td>" + partides[i].codi + "</td><td>" + partides[i].estatPartida + "</td><td>" + partides[i].jugadesJugador1 + "</td><td>" + partides[i].jugadesJugador2 + "</td><td>" + partides[i].wJug1 + "</td><td>" + partides[i].wJug2 + "</td><td>" + partides[i].guanyador + "</td></tr>";
+                    if (partides[i].codi == codi) break;
+                }
+                table += "</table>";
+                document.getElementById("consultaResposta").innerHTML = table;
+            } catch (err) {
+                console.log(err);
+                document.getElementById("consultaResposta").innerHTML = respostaConsulta;
+            }
         }
     }
 
@@ -89,5 +119,5 @@ function inici() {
         }
     }
 
-  
+
 }
