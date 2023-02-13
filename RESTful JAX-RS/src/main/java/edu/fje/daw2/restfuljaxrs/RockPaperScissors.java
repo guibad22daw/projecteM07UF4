@@ -3,10 +3,7 @@ package edu.fje.daw2.restfuljaxrs;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 
 import java.util.*;
 
@@ -20,7 +17,7 @@ public class RockPaperScissors {
     private static List<Integer> partidesAcabades = new ArrayList<Integer>();
     private static List<seguimentPartida> seguiment = new ArrayList<seguimentPartida>();
 
-    @Path("/iniciarJoc/{codiPartida}")
+    @Path("/iniciarPartida/{codiPartida}")
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public String iniciarJoc(@PathParam("codiPartida") int codi) {
@@ -169,7 +166,7 @@ public class RockPaperScissors {
         return "Introdueix un codi vàlid";
     }
 
-    @Path("/acabarJoc/{codiPartida}")
+    @Path("/acabarPartida/{codiPartida}")
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public String acabarJoc(@PathParam("codiPartida") int codi) {
