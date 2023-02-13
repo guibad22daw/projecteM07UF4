@@ -82,3 +82,6 @@ SOAP/consumidorSOAP/nbproject/project.properties
 SOAP/consumidorSOAP/nbproject/genfiles.properties
 SOAP/consumidorSOAP/nbproject/build-impl.xml
 SOAP/consumidorSOAP/catalog.xml
+SOAP/consumidorSOAP/nbproject/private
+SOAP/backendSOAP/nbproject/private
+node_modules
