@@ -9,12 +9,27 @@
     <script type="text/javascript" src="script.js"></script>
     <style>
         body {
-            margin: 10px;
+            margin: 20px;
         }
 
-        .btn {
-            border-radius: 100px;
+        #iniciarPartida {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 8px;
         }
+
+        #moureJugador {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 8px;
+        }
+
+        #moureJugadorResposta, #jugarResposta, #acabarResposta {
+            margin-top: 15px;
+        }
+
         table {
             border: 1px solid black;
             margin-top: 20px;
@@ -22,37 +37,45 @@
     </style>
 </head>
 <body onload="inici()">
-    <label for="codi">Codi:</label>
-    <input id="codi" name="codi" type="number" style="width: 100px" required>
-    <button class="btn btn-primary" id="iniciarPartida" name="iniciarPartida" type="button" style="margin-left: 20px;">Iniciar partida</button><br>
+    <h2>Pedra, paper, tisores</h2> <br>
+    <h6 for="codi">Codi:</h6>
+    <div class="input-group mb-3" style="width: 300px">
+        <input id="codi" class="form-control" name="codi" type="number" placeholder="Codi..." required>
+        <div class="input-group-append">
+            <button class="btn btn-primary" id="iniciarPartida" name="iniciarPartida" type="button">Iniciar partida</button>
+        </div>
+    </div>
     <div id="iniciarResposta"></div><br>
 
-    <label for="jugador">Jugador:</label>
+    <h6 for="jugador">Jugador:</h6>
     <select class="form-select" name="jugador" id="jugador" style="width: 70px;">
         <option value="1">1</option>
         <option value="2" selected>2</option>
     </select>
-    
+
     <br>
 
-    <label for="jugada">Jugada:</label>
-    <select class="form-select" name="jugada" id="jugada" style="width: 100px;">
-        <option value="pedra" selected>Pedra</option>
-        <option value="paper">Paper</option>
-        <option value="tisores">Tisores</option>
-    </select><br>
-    <button class="btn btn-primary" id="moureJugador">Seleccionar jugada</button>
+    <h6 for="jugada">Jugada:</h6>
+    <div class="input-group" style="width: 300px">
+        <select class="form-select" id="jugada">
+            <option value="pedra" selected>Pedra</option>
+            <option value="paper">Paper</option>
+            <option value="tisores">Tisores</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-primary" id="moureJugador">Seleccionar jugada</button>
+        </div>
+    </div>
     <div id="moureJugadorResposta"></div><br>
-
     <br>
 
-    <button class="btn btn-primary" id="jugarPartida">Jugar Partida</button>
+    <button class="btn btn-primary" id="jugarPartida">Jugar partida</button>
     <div id="jugarResposta"></div><br><br>
 
     <button class="btn btn-primary" id="consultaPartida">Consulta estat partida</button>
     <div id="consultaResposta"></div><br><br>
 
-    <button class="btn btn-primary" id="acabarPartida">Acabar Partida</button>
+    <button class="btn btn-danger" id="acabarPartida">Acabar partida</button>
     <div id="acabarResposta"></div><br>
 </body>
 </html>

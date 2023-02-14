@@ -130,7 +130,7 @@ app.put('/api/moureJugador/:codi/:jugador/:jugada', (req, res) => { // /api/mour
             seguiment.compt++;
             partida.jugadesJugador1 += `${jugada} `;
             seguiment.tornJugador = 2;
-            res.send(`Jugador 1: Jugada ${seguiment.compt} executada.`);
+            res.send(`Jugador 1: Has triat ${jugada}.`);
          }
       }
 
@@ -142,7 +142,7 @@ app.put('/api/moureJugador/:codi/:jugador/:jugada', (req, res) => { // /api/mour
             partida.jugadesJugador2 += `${jugada} `;
             seguiment.tornJugador = 1;
             console.log(partida);
-            res.send(`Jugador 2: Jugada ${seguiment.compt2} executada.`);
+            res.send(`Jugador 2: Has triat ${jugada}.`);
          }
       }
    }
