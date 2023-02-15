@@ -69,7 +69,7 @@ app.put('/api/jugarPartida/:codi', (req, res) => {
             partidesAcabades.push(codi);
             res.send("El jugador 1 guanya la partida. \n" + JSON.stringify(partida));
          } else if (partida.wJug2 == 3) {
-            partida.guanyador = "Jugador 1";
+            partida.guanyador = "Jugador 2";
             partidesAcabades.push(codi);
             res.send("El jugador 2 guanya la partida. \n" + JSON.stringify(partida));
          } else if (seguiment.compt >= 5 && seguiment.compt2 >= 5) {
