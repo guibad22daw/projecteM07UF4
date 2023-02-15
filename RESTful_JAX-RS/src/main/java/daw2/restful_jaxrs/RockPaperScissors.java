@@ -42,7 +42,9 @@ public class RockPaperScissors {
         Partida partidaTemp = new Partida(codi, "","","",0,0,"");
         int pos = llistaPartides.indexOf(partidaTemp);
 
-        if (partidesAcabades.contains(codi)) {
+        if (!codis.contains(codi)) {
+            return "La partida amb el codi "+codi+" no existeix.";
+        } else if (partidesAcabades.contains(codi)) {
             return "Aquesta partida ja ha finalitzat. Guanyador: "+ llistaPartides.get(pos).getGuanyador();
         } else {
             seguimentPartida seguimentTemp = new seguimentPartida(codi,0 ,0,1,1);
@@ -98,14 +100,12 @@ public class RockPaperScissors {
                         }
                     }
                 }
-
                 return llistaPartides.get(pos).toString();
             } else if (seguiment.get(pos2).getCompt() != seguiment.get(pos2).getCompt2()) {
                 return "El jugador 2 encara no ha llençat";
-            } else {
-                return "La partida amb codi " + codi + " no existeix";
             }
         }
+        return "Partida no trobada";
 
     }
 

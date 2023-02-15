@@ -23,6 +23,7 @@ function inici() {
     }
 
     document.getElementById("moureJugador").onclick = async function () {
+        document.getElementById("iniciarResposta").innerHTML = '';
         document.getElementById("acabarResposta").innerHTML = '';
         codi = document.getElementById("codi").value;
         jugador = document.getElementById("jugador").value;
@@ -42,6 +43,7 @@ function inici() {
     }
 
     document.getElementById("jugarPartida").onclick = async function () {
+        document.getElementById("iniciarResposta").innerHTML = '';
         document.getElementById("moureJugadorResposta").innerHTML = '';
         document.getElementById("consultaResposta").innerHTML = '';
         document.getElementById("acabarResposta").innerHTML = ''
@@ -94,6 +96,7 @@ function inici() {
     }
 
     document.getElementById("consultaPartida").onclick = async function () {
+        document.getElementById("iniciarResposta").innerHTML = '';
         document.getElementById("acabarResposta").innerHTML = '';
         document.getElementById("jugarResposta").innerHTML = '';
         codi = document.getElementById("codi").value;
@@ -105,8 +108,8 @@ function inici() {
 
         const response = await fetch(`http://localhost:3001/api/consultarEstatPartida/${codi}`, requestOptions);
         if (response.ok) {
+            const respostaConsulta = await response.text();
             try {
-                const respostaConsulta = await response.text();
                 let partides = [];
                 let respostaConsultaJSON = JSON.parse(respostaConsulta);
                 partides.push(respostaConsultaJSON);
@@ -127,6 +130,7 @@ function inici() {
     }
 
     document.getElementById("acabarPartida").onclick = async function () {
+        document.getElementById("iniciarResposta").innerHTML = '';
         codi = document.getElementById("codi").value;
 
         var requestOptions = {

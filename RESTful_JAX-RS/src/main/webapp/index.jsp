@@ -28,7 +28,7 @@
             border-bottom-right-radius: 8px;
         }
 
-        #moureJugadorResposta, #jugarResposta, #acabarResposta {
+        #moureJugadorResposta, #jugarResposta, #acabarResposta, #consultaResposta {
             margin-top: 15px;
         }
 

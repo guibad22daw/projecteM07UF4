@@ -78,17 +78,8 @@ public class Partida {
 
     @Override
     public String toString() {
-        return "Partida{" +
-                "codi=" + codi +
-                ", estatPartida='" + estatPartida + '\'' +
-                ", jugadesJugador1='" + jugadesJugador1 + '\'' +
-                ", jugadesJugador2='" + jugadesJugador2 + '\'' +
-                ", wJug1=" + wJug1 +
-                ", wJug2=" + wJug2 +
-                ", guanyador='" + guanyador + '\'' +
-                '}';
+        return "Codi: " + codi + "  |   Estat partida: " + estatPartida + "  |  Jugades J1: " + jugadesJugador1 + "  |  Jugades J2: " + jugadesJugador2 + "  |  Guanyades J1: " + wJug1 + "  |  Guanyades J2: " + wJug2 + "  |  Guanyador: " + guanyador;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
