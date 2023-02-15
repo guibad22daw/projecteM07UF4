@@ -1,4 +1,4 @@
-package edu.fje.daw2.restfuljaxrs;
+package daw2.restful_jaxrs;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

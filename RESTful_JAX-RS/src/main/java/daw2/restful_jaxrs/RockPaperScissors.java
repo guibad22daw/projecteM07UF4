@@ -1,4 +1,4 @@
-package edu.fje.daw2.restfuljaxrs;
+package daw2.restful_jaxrs;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -147,7 +147,7 @@ public class RockPaperScissors {
                     llistaPartides.get(pos).setJugadesJugador1(llistaPartides.get(pos).getJugadesJugador1()+jugada+" ");
                     seguiment.get(pos2).setTornJugador(2);
                     System.out.println(llistaPartides.get(pos).toString());
-                    return "Jugada " +seguiment.get(pos2).getCompt()+" executada.";
+                    return "Jugador 1: Has triat " +jugada+".";
                 }
             }
 
@@ -159,7 +159,7 @@ public class RockPaperScissors {
                     llistaPartides.get(pos).setJugadesJugador2(llistaPartides.get(pos).getJugadesJugador2()+jugada+" ");
                     seguiment.get(pos2).setTornJugador(1);
                     System.out.println(llistaPartides.get(pos).toString());
-                    return "Jugada " +seguiment.get(pos2).getCompt2()+" executada.";
+                    return "Jugador 2: Has triat " +jugada+".";
                 }
             }
         }

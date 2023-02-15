@@ -1,4 +1,4 @@
-package edu.fje.daw2.restfuljaxrs;
+package daw2.restful_jaxrs;
 
 public class seguimentPartida {
     private int codi;
