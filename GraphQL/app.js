@@ -84,7 +84,7 @@ const arrel = {
                seguiment.compt++;
                partida.jugadesJugador1 += `${jugada} `;
                seguiment.tornJugador = 2;
-               return `Jugada ${seguiment.compt} executada.`;
+               return `Jugador 1: Has triat ${jugada}.`;
             }
          }
 
@@ -96,7 +96,7 @@ const arrel = {
                partida.jugadesJugador2 += `${jugada} `;
                seguiment.tornJugador = 1;
                console.log(partida);
-               return `Jugada ${seguiment.compt2} executada.`;
+               return `Jugador 2: Has triat ${jugada}.`;
             }
          }
       }
@@ -178,6 +178,9 @@ const arrel = {
       let textJson = JSON.stringify(partida).replace(/\"/g,"").replace(/:/g,": ").replace(/,/g,", ");
 
       if (codis.includes(codi)) {
+         if (partida.wJug1 > partida.wJug2) partida.guanyador = "Jugador 1";
+         else if (partida.wJug1 < partida.wJug2) partida.guanyador = "Jugador 2";
+         else partida.guanyador = "Empat";
          partidesAcabades.push(codi);
          codis.splice(codis.indexOf(codi), 1);
          partida.estatPartida = "Finalitzada";
