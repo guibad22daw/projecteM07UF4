@@ -4,11 +4,9 @@ function inici() {
     let jugada;
 
     document.getElementById("iniciarPartida").onclick = function () {
+        neteja();
         codi = document.getElementById("codi").value;
-        document.getElementById("moureJugadorResposta").innerHTML = '';
-        document.getElementById("jugarResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = '';
-        document.getElementById("consultaResposta").innerHTML = '';
+        
         var requestOptions = {
             method: 'POST',
             redirect: 'follow'
@@ -23,8 +21,7 @@ function inici() {
     }
 
     document.getElementById("moureJugador").onclick = async function () {
-        document.getElementById("iniciarResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = '';
+        neteja();
         codi = document.getElementById("codi").value;
         jugador = document.getElementById("jugador").value;
         jugada = document.getElementById("jugada").value;
@@ -43,10 +40,7 @@ function inici() {
     }
 
     document.getElementById("jugarPartida").onclick = async function () {
-        document.getElementById("iniciarResposta").innerHTML = '';
-        document.getElementById("moureJugadorResposta").innerHTML = '';
-        document.getElementById("consultaResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = ''
+        neteja();
         codi = document.getElementById("codi").value;
 
         var requestOptions = {
@@ -96,9 +90,7 @@ function inici() {
     }
 
     document.getElementById("consultaPartida").onclick = async function () {
-        document.getElementById("iniciarResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = '';
-        document.getElementById("jugarResposta").innerHTML = '';
+        neteja();
         codi = document.getElementById("codi").value;
 
         var requestOptions = {
@@ -130,7 +122,7 @@ function inici() {
     }
 
     document.getElementById("acabarPartida").onclick = async function () {
-        document.getElementById("iniciarResposta").innerHTML = '';
+        neteja();
         codi = document.getElementById("codi").value;
 
         var requestOptions = {
@@ -160,5 +152,13 @@ function inici() {
                 document.getElementById("acabarResposta").innerHTML = respostaAcabar;
             }
         }
+    }
+
+    function neteja() {
+        document.getElementById("iniciarResposta").innerHTML = '';
+        document.getElementById("jugarResposta").innerHTML = '';
+        document.getElementById("moureJugadorResposta").innerHTML = '';
+        document.getElementById("consultaResposta").innerHTML = '';
+        document.getElementById("acabarResposta").innerHTML = '';
     }
 }

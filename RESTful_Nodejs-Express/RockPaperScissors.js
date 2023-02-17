@@ -14,11 +14,11 @@ let partidesAcabades = [];
 let moviments = ["pedra", "paper", "tisores"];
 
 app.get('/', (req, res) => {
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
 });
 
 app.post('/api/iniciarPartida/:codi', (req, res) => {
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
    let codi = parseInt(req.params.codi);
 
    if (codis.includes(codi)) res.send("Codi de partida ja existent.");
@@ -33,13 +33,13 @@ app.post('/api/iniciarPartida/:codi', (req, res) => {
 });
 
 app.put('/api/jugarPartida/:codi', (req, res) => {
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
    let codi = parseInt(req.params.codi);
    let partida = llistaPartides.find(a => a.codi === codi);
    let seguiment = seguimentPartida.find(a => a.codi === codi);
 
    if (partidesAcabades.includes(codi)) {
-      res.send(`Aquesta partida ja ha finalitzat. Guanyador: ${partida.guanyador}. \n`+JSON.stringify(partida))
+      res.send(`Aquesta partida ja ha finalitzat. Guanyador: ${partida.guanyador}. \n` + JSON.stringify(partida))
    } else {
       if (partida.estatPartida != "En joc") res.send("La partida amb codi " + codi + " no està en joc.");
       else if (codis.includes(codi) && (partida.estatPartida == "En joc") && (seguiment.compt == seguiment.compt2)) {
@@ -94,7 +94,7 @@ app.put('/api/jugarPartida/:codi', (req, res) => {
 });
 
 app.get('/api/consultarEstatPartida/:codi', (req, res) => {
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
    let codi = parseInt(req.params.codi);
    let partida = llistaPartides.find(a => a.codi === codi);
 
@@ -105,7 +105,7 @@ app.get('/api/consultarEstatPartida/:codi', (req, res) => {
 
 
 app.put('/api/moureJugador/:codi/:jugador/:jugada', (req, res) => { // /api/moureJugador
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
    let codi = parseInt(req.params.codi);
    let jugador = parseInt(req.params.jugador);
    let jugada = req.params.jugada;
@@ -151,13 +151,15 @@ app.put('/api/moureJugador/:codi/:jugador/:jugada', (req, res) => { // /api/mour
 });
 
 app.delete('/api/acabarPartida/:codi', (req, res) => {
-   res.header('Access-Control-Allow-Origin',"*");
+   res.header('Access-Control-Allow-Origin', "*");
    let codi = parseInt(req.params.codi);
    let seguiment = seguimentPartida.find(a => a.codi === codi);
    let partida = llistaPartides.find(a => a.codi === codi);
 
    if (codis.includes(codi)) {
-      if (partida.wJug1 == partida.wJug2) partida.guanyador = "Empat";
+      if (partida.wJug1 > partida.wJug2) partida.guanyador = "Jugador 1";
+      else if (partida.wJug1 < partida.wJug2) partida.guanyador = "Jugador 2";
+      else partida.guanyador = "Empat";
       partidesAcabades.push(codi);
       codis.splice(codis.indexOf(codi), 1);
       partida.estatPartida = "Finalitzada";
@@ -172,4 +174,6 @@ app.delete('/api/acabarPartida/:codi', (req, res) => {
 
 });
 
-app.listen(3001, () => console.log('Servidor iniciat.'));
+app.use(express.static('public'));
+let port = 3001;
+app.listen(port, () => console.log(`Servidor iniciat al port ${port}.`));
