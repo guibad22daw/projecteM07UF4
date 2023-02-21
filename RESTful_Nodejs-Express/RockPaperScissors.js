@@ -41,7 +41,8 @@ app.put('/api/jugarPartida/:codi', (req, res) => {
    if (partidesAcabades.includes(codi)) {
       res.send(`Aquesta partida ja ha finalitzat. Guanyador: ${partida.guanyador}. \n` + JSON.stringify(partida))
    } else {
-      if (partida.estatPartida != "En joc") res.send("La partida amb codi " + codi + " no està en joc.");
+      if (!codis.includes(codi)) res.send("La partida amb codi " + codi + " no existeix");
+      else if (partida.estatPartida != "En joc") res.send("La partida amb codi " + codi + " no està en joc.");
       else if (codis.includes(codi) && (partida.estatPartida == "En joc") && (seguiment.compt == seguiment.compt2)) {
          let jugadesJugador1 = partida.jugadesJugador1.split(" ");
          let jugadesJugador2 = partida.jugadesJugador2.split(" ");
@@ -94,7 +95,6 @@ app.put('/api/jugarPartida/:codi', (req, res) => {
          }
 
       } else if (seguiment.compt != seguiment.compt2) res.send("El jugador 2 encara no ha llençat.");
-      else res.send("La partida amb codi " + codi + " no existeix");
    }
 });
 
