@@ -4,11 +4,8 @@ function inici() {
     let jugada;
 
     document.getElementById("iniciarPartida").onclick = async function () {
+        neteja();
         codi = document.getElementById("codi").value;
-        document.getElementById("moureJugadorResposta").innerHTML = '';
-        document.getElementById("jugarResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = '';
-        document.getElementById("consultaResposta").innerHTML = '';
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -32,7 +29,7 @@ function inici() {
     }
 
     document.getElementById("moureJugador").onclick = async function () {
-        document.getElementById("acabarResposta").innerHTML = '';
+        neteja();
         codi = document.getElementById("codi").value;
         jugador = document.getElementById("jugador").value;
         jugada = document.getElementById("jugada").value;
@@ -41,7 +38,7 @@ function inici() {
         myHeaders.append("Content-Type", "application/json");
 
         var graphql = JSON.stringify({
-            query: `mutation {\r\n    moureJugador(codi: 123, jugador: ${jugador}, jugada: ${jugada})\r\n}`,
+            query: `mutation {\r\n    moureJugador(codi: ${codi}, jugador: ${jugador}, jugada: ${jugada})\r\n}`,
             variables: {}
         })
 
@@ -60,9 +57,7 @@ function inici() {
     }
 
     document.getElementById("jugarPartida").onclick = async function () {
-        document.getElementById("moureJugadorResposta").innerHTML = '';
-        document.getElementById("consultaResposta").innerHTML = '';
-        document.getElementById("acabarResposta").innerHTML = ''
+        neteja();
         codi = document.getElementById("codi").value;
 
         var myHeaders = new Headers();
@@ -88,8 +83,7 @@ function inici() {
     }
 
     document.getElementById("consultaPartida").onclick = async function () {
-        document.getElementById("acabarResposta").innerHTML = '';
-        document.getElementById("jugarResposta").innerHTML = '';
+        neteja();
         codi = document.getElementById("codi").value;
 
         var myHeaders = new Headers();
@@ -115,6 +109,7 @@ function inici() {
     }
 
     document.getElementById("acabarPartida").onclick = async function () {
+        neteja();
         codi = document.getElementById("codi").value;
 
         var myHeaders = new Headers();
@@ -137,5 +132,13 @@ function inici() {
             const resposta = await response.text();
             document.getElementById("acabarResposta").innerHTML = resposta;
         }
+    }
+
+    function neteja() {
+        document.getElementById("iniciarResposta").innerHTML = '';
+        document.getElementById("jugarResposta").innerHTML = '';
+        document.getElementById("moureJugadorResposta").innerHTML = '';
+        document.getElementById("consultaResposta").innerHTML = '';
+        document.getElementById("acabarResposta").innerHTML = '';
     }
 }

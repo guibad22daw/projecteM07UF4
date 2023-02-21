@@ -110,7 +110,8 @@ const arrel = {
       if (partidesAcabades.includes(codi)) {
          return `Aquesta partida ja ha finalitzat. Guanyador: ${partida.guanyador}.`;
       } else {
-         if (partida.estatPartida != "En joc") return "La partida amb codi " + codi + " no està en joc.";
+         if (!codis.includes(codi)) return "La partida amb codi " + codi + " no existeix";
+         else if (partida.estatPartida != "En joc") return "La partida amb codi " + codi + " no està en joc.";
          else if (codis.includes(codi) && (partida.estatPartida == "En joc") && (seguiment.compt == seguiment.compt2)) {
             let jugadesJugador1 = partida.jugadesJugador1.split(" ");
             let jugadesJugador2 = partida.jugadesJugador2.split(" ");
@@ -138,13 +139,11 @@ const arrel = {
                partidesAcabades.push(codi);
                partida.guanyador = "Jugador 1";
                partidesAcabades.push(codi);
-               let partidaJson = JSON.stringify(partida);
-               partidaJson = partidaJson.replace(/\"/g,"");
-               return "El jugador 1 guanya la partida. " + partidaJson;
+               return "El jugador 1 guanya la partida. " + textJson;
 
             } else if (partida.wJug2 == 3) {
                partidesAcabades.push(codi);
-               partida.guanyador = "Jugador 1";
+               partida.guanyador = "Jugador 2";
                partidesAcabades.push(codi);
                return "El jugador 2 guanya la partida. " + textJson;
 
@@ -168,14 +167,12 @@ const arrel = {
             }
 
          } else if (seguiment.compt != seguiment.compt2) return "El jugador 2 encara no ha llençat.";
-         else return "La partida amb codi " + codi + " no existeix";
       }
    },
 
    acabarPartida: ({ codi }) => {
       let seguiment = seguimentPartida.find(a => a.codi === codi);
       let partida = llistaPartides.find(a => a.codi === codi);
-      let textJson = JSON.stringify(partida).replace(/\"/g,"").replace(/:/g,": ").replace(/,/g,", ");
 
       if (codis.includes(codi)) {
          if (partida.wJug1 > partida.wJug2) partida.guanyador = "Jugador 1";
@@ -184,6 +181,7 @@ const arrel = {
          partidesAcabades.push(codi);
          codis.splice(codis.indexOf(codi), 1);
          partida.estatPartida = "Finalitzada";
+         let textJson = JSON.stringify(partida).replace(/\"/g,"").replace(/:/g,": ").replace(/,/g,", ");
          seguimentPartida.splice(seguimentPartida.indexOf(seguiment), 1);
          return "Partida finalitzada. " + textJson;
 

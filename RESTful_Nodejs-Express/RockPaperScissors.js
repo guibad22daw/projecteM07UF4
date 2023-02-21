@@ -68,22 +68,27 @@ app.put('/api/jugarPartida/:codi', (req, res) => {
             partida.guanyador = "Jugador 1";
             partidesAcabades.push(codi);
             res.send("El jugador 1 guanya la partida. \n" + JSON.stringify(partida));
+         
          } else if (partida.wJug2 == 3) {
             partida.guanyador = "Jugador 2";
             partidesAcabades.push(codi);
             res.send("El jugador 2 guanya la partida. \n" + JSON.stringify(partida));
+         
          } else if (seguiment.compt >= 5 && seguiment.compt2 >= 5) {
+            partidesAcabades.push(codi);
+            
             if (partida.wJug1 > partida.wJug2) {
                partida.guanyador = "Jugador 1";
                res.send("El jugador 1 guanya la partida. \n" + JSON.stringify(partida));
+            
             } else if (partida.wJug1 > partida.wJug2) {
                partida.guanyador = "Jugador 2";
                res.send("El jugador 2 guanya la partida. \n" + JSON.stringify(partida));
+            
             } else {
                partida.guanyador = "Empat";
                res.send("La partida finalitza en empat. \n" + JSON.stringify(partida));
             }
-            partidesAcabades.push(codi);
          } else {
             res.send(partida);
          }
