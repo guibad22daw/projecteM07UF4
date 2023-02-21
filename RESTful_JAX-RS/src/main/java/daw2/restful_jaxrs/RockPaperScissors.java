@@ -103,7 +103,7 @@ public class RockPaperScissors {
                 return "El jugador 2 encara no ha triat jugada.";
             }
         }
-        return "La partida amb el codi "+codi+" no existeix.";
+        return "La partida amb codi "+codi+" no existeix.";
     }
 
     @Path("/consultarEstatPartida/{codiPartida}")
@@ -185,7 +185,7 @@ public class RockPaperScissors {
             seguiment.remove(seguimentTemp);
             return "Aquesta partida ja ha finalitzat.";
         } else {
-            return "La partida amb el codi " + codi + " no existeix";
+            return "La partida amb codi " + codi + " no existeix.";
         }
     }
 }
